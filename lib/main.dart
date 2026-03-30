@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'core/config/env_config.dart';
 import 'core/theme/app_theme.dart';
 import 'features/home/player_screen.dart';
 
@@ -13,13 +13,15 @@ Future<void> main() async {
   await Hive.initFlutter('mindweave_data');
   await Hive.openBox('stats');
 
-  // Load environment variables
-  await dotenv.load(fileName: ".env");
+  // Initialize environment configuration
+  // Dev: Loads from .env file
+  // Prod: Uses compile-time --dart-define variables
+  await EnvConfig().initialize();
 
   // Initialize Supabase
   await Supabase.initialize(
-    url: dotenv.get('SUPABASE_URL'),
-    anonKey: dotenv.get('SUPABASE_ANON_KEY'),
+    url: EnvConfig().supabaseUrl,
+    anonKey: EnvConfig().supabaseAnonKey,
   );
 
   // Sign in anonymously if no session exists
