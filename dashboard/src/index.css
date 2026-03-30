@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  /* Dark mode colors (default) */
+  --color-background: #0D0D0F;
+  --color-surface: #1A1A1F;
+  --color-primary: #7B68EE;
+  --color-secondary: #00D9C0;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A0A0A0;
+  --color-accent-delta: #4A90D9;
+  --color-accent-theta: #9B59B6;
+  --color-accent-alpha: #7B68EE;
+  --color-accent-beta: #E67E22;
+  --color-accent-gamma: #E74C3C;
+}
+
+/* Light mode overrides */
+html:not(.dark) {
+  --color-background: #F5F5F7;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #1A1A1F;
+  --color-text-secondary: #6B6B6B;
+}
+
+/* Light mode - override hardcoded gray colors */
+html:not(.dark) .text-white {
+  color: #1A1A1F !important;
+}
+
+html:not(.dark) .text-text-secondary {
+  color: #6B6B6B !important;
+}
+
+html:not(.dark) .border-gray-800,
+html:not(.dark) .border-gray-700 {
+  border-color: #E5E5E5 !important;
+}
+
+html:not(.dark) .hover\:bg-gray-800:hover {
+  background-color: #F0F0F0 !important;
+}
+
+html:not(.dark) .bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  width: 100%;
+}
