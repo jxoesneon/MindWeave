@@ -1,0 +1,84 @@
+# AI Tools (cloned repositories, should not be committed)
+/ai_tools/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Supabase
+/supabase/.temp/
+/supabase/config.toml
+
+# Dashboard (React app)
+/dashboard/node_modules/
+/dashboard/dist/
+/dashboard/.env
+
+# Test outputs
+test_output*.txt
+*_out.txt
+coverage/
+*.lcov
+cov*.txt
+
+# IDE
+.vscode/settings.json
+.vscode/launch.json
+
+# Misc project files
+*.log
+.DS_Store
+Thumbs.db
+
+# Agent/AI folders
+.agent/
+.gemini/
+.windsurf/
+
+# Obsidian (if using as docs)
+.obsidian/workspace.json
+.obsidian/cache/
+
+# Flutter/Dart specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication
+app.*.symbols
+
+# Obfuscation
+app.*.map.json
+
+# Android
+/android/app/debug
+/android/app/profile
+/android/app/release
+/android/.gradle/
+/android/key.properties
+/android/local.properties
+
+# iOS
+/ios/Pods/
+/ios/.symlinks/
+/ios/Flutter/.last_build_id
+/ios/Flutter/Flutter.framework/
+/ios/Flutter/Flutter.podspec
+
+# macOS
+/macos/Pods/
+/macos/Flutter/ephemeral/
+
+# Windows
+/windows/flutter/ephemeral/
+/windows/Flutter/ephemeral/
+
+# Linux
+/linux/flutter/ephemeral/
+
+# Web
+/web/firebase-config.js
