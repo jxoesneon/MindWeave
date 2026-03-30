@@ -19,11 +19,15 @@
 /dashboard/.env
 
 # Test outputs & temp files
-test_output*.txt
+test*.txt
+test*.json
 *_out.txt
+*_output.txt
+*_machine.json
+lints*.txt
+cov*.txt
 coverage/
 *.lcov
-cov*.txt
 tmp/
 
 # IDE
@@ -51,6 +55,8 @@ Thumbs.db
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
+.pub-preload-cache/
 .pub-cache/
 .pub/
 /build/
@@ -61,31 +67,35 @@ app.*.symbols
 # Obfuscation
 app.*.map.json
 
-# Android
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Android - additional patterns
 /android/.gradle/
 /android/key.properties
+*.jks
 /android/local.properties
+/android/.cxx/
 
-# iOS
-/ios/Pods/
-/ios/.symlinks/
-/ios/Flutter/.last_build_id
-/ios/Flutter/Flutter.framework/
-/ios/Flutter/Flutter.podspec
+# iOS - additional patterns
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/ephemeral/
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
 
 # macOS
 /macos/Pods/
 /macos/Flutter/ephemeral/
 
-# Windows
-/windows/flutter/ephemeral/
-/windows/Flutter/ephemeral/
+# Windows - additional patterns
+/windows/flutter/generated_plugin_registrant.cc
+/windows/flutter/generated_plugin_registrant.h
+/windows/flutter/generated_plugins.cmake
 
-# Linux
-/linux/flutter/ephemeral/
+# Linux - additional patterns
+/linux/flutter/generated_plugin_registrant.cc
+/linux/flutter/generated_plugin_registrant.h
+/linux/flutter/generated_plugins.cmake
 
 # Web
 /web/firebase-config.js
