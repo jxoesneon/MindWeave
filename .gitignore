@@ -1,6 +1,9 @@
 # AI Tools (cloned repositories, should not be committed)
 /ai_tools/
 
+# Flutter metadata
+.metadata
+
 # Environment files
 .env
 .env.local
@@ -15,16 +18,21 @@
 /dashboard/dist/
 /dashboard/.env
 
-# Test outputs
+# Test outputs & temp files
 test_output*.txt
 *_out.txt
 coverage/
 *.lcov
 cov*.txt
+tmp/
 
 # IDE
 .vscode/settings.json
 .vscode/launch.json
+.idea/
+*.iml
+*.ipr
+*.iws
 
 # Misc project files
 *.log
@@ -36,9 +44,8 @@ Thumbs.db
 .gemini/
 .windsurf/
 
-# Obsidian (if using as docs)
-.obsidian/workspace.json
-.obsidian/cache/
+# Obsidian (documentation)
+.obsidian/
 
 # Flutter/Dart specific
 .dart_tool/
