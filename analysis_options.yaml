@@ -1,0 +1,30 @@
+analyzer:
+  exclude: [
+    "**/*.g.dart",
+    "**/*.freezed.dart",
+    "lib/generated_plugin_registrant.dart",
+  ]
+  errors:
+    invalid_annotation_target: ignore
+    unused_import: info
+    deprecated_member_use: info
+
+linter:
+  rules:
+    - avoid_print
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - always_declare_return_types
+    - cancel_subscriptions
+    - close_sinks
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+include: package:flutter_lints/flutter.yaml
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
