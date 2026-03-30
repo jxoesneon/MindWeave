@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant App as Flutter App
+    participant SB as Supabase Auth
+    participant DB as PostgreSQL
+
+    App->>SB: signInAnonymously()
+    SB-->>App: user + session
+    App->>DB: Request with JWT
+    DB->>DB: Validate JWT + RLS
+    DB-->>App: Data (if authorized)

@@ -1,0 +1,25 @@
+graph TB
+    subgraph "Flutter Layer (Dart)"
+        A[AudioController<br/>Riverpod]
+        B[BinauralSession<br/>Model]
+        C[FrequencyCalculator]
+    end
+
+    subgraph "FFI Bridge"
+        D[Dart FFI<br/>Bindings]
+    end
+
+    subgraph "Native Layer (C++)"
+        E[SoLoud Engine]
+        F[SineWave Generator]
+        G[Audio Mixer]
+        H[Device Output]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H

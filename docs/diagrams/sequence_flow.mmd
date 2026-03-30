@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant User
+    participant App as Flutter App
+    participant Audio as Audio Engine
+    participant SB as Supabase
+    participant RC as Remote Config
+
+    User->>App: Open App
+    App->>SB: Authenticate (anon)
+    SB-->>App: Session Token
+    App->>RC: Fetch config
+    RC-->>App: Feature flags, ad settings
+    
+    User->>App: Select preset (Alpha 10Hz)
+    App->>Audio: Start binaural(10Hz, 250Hz)
+    Audio-->>App: Playing
+    App->>SB: Log session start (anon)
+    
+    User->>App: Adjust carrier frequency
+    App->>Audio: Update carrier(300Hz)
+    Audio-->>App: Updated
+    
+    User->>App: End session
+    App->>Audio: Stop
+    App->>SB: Log session end
+    
+    opt If donation prompt enabled
+        App->>User: Show donation dialog
+    end

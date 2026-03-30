@@ -1,0 +1,68 @@
+erDiagram
+    USERS {
+        uuid id PK
+        timestamp created_at
+        timestamp last_active
+        boolean is_anonymous
+        string device_type
+        string app_version
+    }
+
+    SESSIONS {
+        uuid id PK
+        uuid user_id FK
+        timestamp started_at
+        timestamp ended_at
+        int duration_seconds
+        string preset_id
+        float beat_frequency
+        float carrier_frequency
+        float volume_level
+        boolean completed
+    }
+
+    PRESETS {
+        string id PK
+        string name
+        string description
+        string band
+        float beat_frequency
+        float default_carrier
+        jsonb metadata
+        boolean is_official
+        int usage_count
+    }
+
+    DONATIONS {
+        uuid id PK
+        uuid user_id FK
+        timestamp donated_at
+        decimal amount
+        string currency
+        string provider
+        boolean is_recurring
+        string recognition_name
+    }
+
+    REMOTE_CONFIG {
+        string key PK
+        jsonb value
+        timestamp updated_at
+        string updated_by
+        string description
+    }
+
+    AUDIT_LOG {
+        uuid id PK
+        timestamp created_at
+        string action
+        string entity_type
+        uuid entity_id
+        jsonb old_value
+        jsonb new_value
+        string performed_by
+    }
+
+    USERS ||--o{ SESSIONS : "has many"
+    USERS ||--o{ DONATIONS : "makes"
+    PRESETS ||--o{ SESSIONS : "used in"

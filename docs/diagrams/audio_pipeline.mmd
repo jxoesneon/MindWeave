@@ -1,0 +1,27 @@
+flowchart LR
+    subgraph "Input"
+        A[User Settings<br/>Frequency, Volume]
+    end
+
+    subgraph "Synthesis Layer"
+        B[Left Channel<br/>Generator]
+        C[Right Channel<br/>Generator]
+        D[Beat Frequency<br/>Calculator]
+    end
+
+    subgraph "Mixing Layer"
+        E[Master Mixer]
+        F[Background<br/>Audio Input]
+    end
+
+    subgraph "Output"
+        G[Audio Output<br/>Device]
+    end
+
+    A --> D
+    D --> B
+    D --> C
+    B --> E
+    C --> E
+    F --> E
+    E --> G

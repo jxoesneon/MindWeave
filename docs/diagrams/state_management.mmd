@@ -1,0 +1,36 @@
+graph TB
+    subgraph "Provider Layer"
+        A[AuthProvider]
+        B[AudioProvider]
+        C[SettingsProvider]
+        D[SessionProvider]
+        E[DonationProvider]
+        F[RemoteConfigProvider]
+    end
+
+    subgraph "Service Layer"
+        G[AudioService]
+        H[SupabaseService]
+        I[StorageService]
+        J[AnalyticsService]
+    end
+
+    subgraph "UI Layer"
+        K[Widgets]
+        L[Screens]
+    end
+
+    A --> H
+    B --> G
+    C --> I
+    D --> H
+    E --> H
+    F --> H
+
+    K --> A
+    K --> B
+    K --> C
+    K --> D
+    K --> E
+    K --> F
+    L --> K

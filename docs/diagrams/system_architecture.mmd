@@ -1,0 +1,37 @@
+graph TB
+    subgraph "Client Layer"
+        A[iOS App<br/>Flutter]
+        B[Android App<br/>Flutter]
+        C[Web Dashboard<br/>React]
+    end
+
+    subgraph "Backend Layer"
+        D[Supabase<br/>PostgreSQL]
+        E[Supabase Auth]
+        F[Supabase Storage]
+        G[Edge Functions]
+    end
+
+    subgraph "External Services"
+        H[GitHub Sponsors]
+        I[Open Collective]
+        J[AdMob<br/>Optional]
+        K[Sentry<br/>Error Tracking]
+    end
+
+    A --> D
+    A --> E
+    A --> G
+    B --> D
+    B --> E
+    B --> G
+    C --> D
+    C --> E
+    C --> G
+
+    G --> H
+    G --> I
+    A -.-> J
+    B -.-> J
+    A --> K
+    B --> K

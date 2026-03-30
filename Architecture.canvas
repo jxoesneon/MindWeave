@@ -1,0 +1,14 @@
+{
+	"nodes":[
+		{"id":"6f0ad84f44ce9c17","type":"text","x":0,"y":0,"width":300,"height":100,"text":"# MindWeave\nOpen Source Brainwave Entrainment","color":"6"},
+		{"id":"a1b2c3d4e5f67890","type":"file","x":-400,"y":200,"width":300,"height":200,"file":"Concepts/Audio Engine.md","color":"1"},
+		{"id":"c3d4e5f678901234","type":"text","x":400,"y":200,"width":300,"height":200,"text":"## Backend (Supabase)\n- Auth (Anonymous)\n- Database (PostgreSQL)\n- Edge Functions (TypeScript)\n- Storage","color":"4"},
+		{"id":"d4e5f6789012345a","type":"text","x":0,"y":500,"width":300,"height":150,"text":"## External Services\n- GitHub Sponsors\n- Open Collective\n- Google AdMob (Dormant)","color":"2"}
+	],
+	"edges":[
+		{"id":"edge1","fromNode":"6f0ad84f44ce9c17","fromSide":"bottom","toNode":"a1b2c3d4e5f67890","toSide":"top","toEnd":"arrow"},
+		{"id":"edge2","fromNode":"6f0ad84f44ce9c17","fromSide":"bottom","toNode":"c3d4e5f678901234","toSide":"top","toEnd":"arrow"},
+		{"id":"edge3","fromNode":"6f0ad84f44ce9c17","fromSide":"bottom","toNode":"d4e5f6789012345a","toSide":"top","toEnd":"arrow"},
+		{"id":"edge4","fromNode":"a1b2c3d4e5f67890","fromSide":"right","toNode":"c3d4e5f678901234","toSide":"left","toEnd":"arrow","label":"API / Auth"}
+	]
+}
