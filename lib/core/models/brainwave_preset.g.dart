@@ -24,6 +24,12 @@ _BrainwavePreset _$BrainwavePresetFromJson(Map<String, dynamic> json) =>
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           const [],
+      defaultDuration: json['defaultDuration'] == null
+          ? const Duration(minutes: 15)
+          : Duration(microseconds: (json['defaultDuration'] as num).toInt()),
+      isPremium: json['isPremium'] as bool? ?? false,
+      defaultVolume: (json['defaultVolume'] as num?)?.toDouble() ?? 0.8,
+      metadata: json['metadata'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$BrainwavePresetToJson(_BrainwavePreset instance) =>
@@ -39,6 +45,10 @@ Map<String, dynamic> _$BrainwavePresetToJson(_BrainwavePreset instance) =>
       'iconPath': instance.iconPath,
       'accentColorValue': instance.accentColorValue,
       'tags': instance.tags,
+      'defaultDuration': instance.defaultDuration.inMicroseconds,
+      'isPremium': instance.isPremium,
+      'defaultVolume': instance.defaultVolume,
+      'metadata': instance.metadata,
     };
 
 const _$BrainwaveBandEnumMap = {

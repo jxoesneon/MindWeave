@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BrainwavePreset {
 
- String get id; String get name; String get description; BrainwaveBand get band; double get beatFrequency; double get defaultCarrierFrequency; double get minCarrierFrequency; double get maxCarrierFrequency; String get iconPath; int get accentColorValue; List<String> get tags;
+ String get id; String get name; String get description; BrainwaveBand get band; double get beatFrequency; double get defaultCarrierFrequency; double get minCarrierFrequency; double get maxCarrierFrequency; String get iconPath; int get accentColorValue; List<String> get tags; Duration get defaultDuration; bool get isPremium; double get defaultVolume; Map<String, dynamic>? get metadata;
 /// Create a copy of BrainwavePreset
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $BrainwavePresetCopyWith<BrainwavePreset> get copyWith => _$BrainwavePresetCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BrainwavePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.band, band) || other.band == band)&&(identical(other.beatFrequency, beatFrequency) || other.beatFrequency == beatFrequency)&&(identical(other.defaultCarrierFrequency, defaultCarrierFrequency) || other.defaultCarrierFrequency == defaultCarrierFrequency)&&(identical(other.minCarrierFrequency, minCarrierFrequency) || other.minCarrierFrequency == minCarrierFrequency)&&(identical(other.maxCarrierFrequency, maxCarrierFrequency) || other.maxCarrierFrequency == maxCarrierFrequency)&&(identical(other.iconPath, iconPath) || other.iconPath == iconPath)&&(identical(other.accentColorValue, accentColorValue) || other.accentColorValue == accentColorValue)&&const DeepCollectionEquality().equals(other.tags, tags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BrainwavePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.band, band) || other.band == band)&&(identical(other.beatFrequency, beatFrequency) || other.beatFrequency == beatFrequency)&&(identical(other.defaultCarrierFrequency, defaultCarrierFrequency) || other.defaultCarrierFrequency == defaultCarrierFrequency)&&(identical(other.minCarrierFrequency, minCarrierFrequency) || other.minCarrierFrequency == minCarrierFrequency)&&(identical(other.maxCarrierFrequency, maxCarrierFrequency) || other.maxCarrierFrequency == maxCarrierFrequency)&&(identical(other.iconPath, iconPath) || other.iconPath == iconPath)&&(identical(other.accentColorValue, accentColorValue) || other.accentColorValue == accentColorValue)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.defaultDuration, defaultDuration) || other.defaultDuration == defaultDuration)&&(identical(other.isPremium, isPremium) || other.isPremium == isPremium)&&(identical(other.defaultVolume, defaultVolume) || other.defaultVolume == defaultVolume)&&const DeepCollectionEquality().equals(other.metadata, metadata));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,band,beatFrequency,defaultCarrierFrequency,minCarrierFrequency,maxCarrierFrequency,iconPath,accentColorValue,const DeepCollectionEquality().hash(tags));
+int get hashCode => Object.hash(runtimeType,id,name,description,band,beatFrequency,defaultCarrierFrequency,minCarrierFrequency,maxCarrierFrequency,iconPath,accentColorValue,const DeepCollectionEquality().hash(tags),defaultDuration,isPremium,defaultVolume,const DeepCollectionEquality().hash(metadata));
 
 @override
 String toString() {
-  return 'BrainwavePreset(id: $id, name: $name, description: $description, band: $band, beatFrequency: $beatFrequency, defaultCarrierFrequency: $defaultCarrierFrequency, minCarrierFrequency: $minCarrierFrequency, maxCarrierFrequency: $maxCarrierFrequency, iconPath: $iconPath, accentColorValue: $accentColorValue, tags: $tags)';
+  return 'BrainwavePreset(id: $id, name: $name, description: $description, band: $band, beatFrequency: $beatFrequency, defaultCarrierFrequency: $defaultCarrierFrequency, minCarrierFrequency: $minCarrierFrequency, maxCarrierFrequency: $maxCarrierFrequency, iconPath: $iconPath, accentColorValue: $accentColorValue, tags: $tags, defaultDuration: $defaultDuration, isPremium: $isPremium, defaultVolume: $defaultVolume, metadata: $metadata)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $BrainwavePresetCopyWith<$Res>  {
   factory $BrainwavePresetCopyWith(BrainwavePreset value, $Res Function(BrainwavePreset) _then) = _$BrainwavePresetCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String description, BrainwaveBand band, double beatFrequency, double defaultCarrierFrequency, double minCarrierFrequency, double maxCarrierFrequency, String iconPath, int accentColorValue, List<String> tags
+ String id, String name, String description, BrainwaveBand band, double beatFrequency, double defaultCarrierFrequency, double minCarrierFrequency, double maxCarrierFrequency, String iconPath, int accentColorValue, List<String> tags, Duration defaultDuration, bool isPremium, double defaultVolume, Map<String, dynamic>? metadata
 });
 
 
@@ -65,7 +65,7 @@ class _$BrainwavePresetCopyWithImpl<$Res>
 
 /// Create a copy of BrainwavePreset
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? band = null,Object? beatFrequency = null,Object? defaultCarrierFrequency = null,Object? minCarrierFrequency = null,Object? maxCarrierFrequency = null,Object? iconPath = null,Object? accentColorValue = null,Object? tags = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? band = null,Object? beatFrequency = null,Object? defaultCarrierFrequency = null,Object? minCarrierFrequency = null,Object? maxCarrierFrequency = null,Object? iconPath = null,Object? accentColorValue = null,Object? tags = null,Object? defaultDuration = null,Object? isPremium = null,Object? defaultVolume = null,Object? metadata = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,11 @@ as double,maxCarrierFrequency: null == maxCarrierFrequency ? _self.maxCarrierFre
 as double,iconPath: null == iconPath ? _self.iconPath : iconPath // ignore: cast_nullable_to_non_nullable
 as String,accentColorValue: null == accentColorValue ? _self.accentColorValue : accentColorValue // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,defaultDuration: null == defaultDuration ? _self.defaultDuration : defaultDuration // ignore: cast_nullable_to_non_nullable
+as Duration,isPremium: null == isPremium ? _self.isPremium : isPremium // ignore: cast_nullable_to_non_nullable
+as bool,defaultVolume: null == defaultVolume ? _self.defaultVolume : defaultVolume // ignore: cast_nullable_to_non_nullable
+as double,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,
   ));
 }
 
@@ -87,17 +91,6 @@ as List<String>,
 
 /// Adds pattern-matching-related methods to [BrainwavePreset].
 extension BrainwavePresetPatterns on BrainwavePreset {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
 
 @optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BrainwavePreset value)?  $default,{required TResult orElse(),}){
 final _that = this;
@@ -108,18 +101,6 @@ return $default(_that);case _:
 
 }
 }
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
 
 @optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BrainwavePreset value)  $default,){
 final _that = this;
@@ -130,17 +111,6 @@ return $default(_that);case _:
 
 }
 }
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
 
 @optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BrainwavePreset value)?  $default,){
 final _that = this;
@@ -151,63 +121,29 @@ return $default(_that);case _:
 
 }
 }
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  BrainwaveBand band,  double beatFrequency,  double defaultCarrierFrequency,  double minCarrierFrequency,  double maxCarrierFrequency,  String iconPath,  int accentColorValue,  List<String> tags)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  BrainwaveBand band,  double beatFrequency,  double defaultCarrierFrequency,  double minCarrierFrequency,  double maxCarrierFrequency,  String iconPath,  int accentColorValue,  List<String> tags,  Duration defaultDuration,  bool isPremium,  double defaultVolume,  Map<String, dynamic>? metadata)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BrainwavePreset() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequency,_that.defaultCarrierFrequency,_that.minCarrierFrequency,_that.maxCarrierFrequency,_that.iconPath,_that.accentColorValue,_that.tags);case _:
+return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequency,_that.defaultCarrierFrequency,_that.minCarrierFrequency,_that.maxCarrierFrequency,_that.iconPath,_that.accentColorValue,_that.tags,_that.defaultDuration,_that.isPremium,_that.defaultVolume,_that.metadata);case _:
   return orElse();
 
 }
 }
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  BrainwaveBand band,  double beatFrequency,  double defaultCarrierFrequency,  double minCarrierFrequency,  double maxCarrierFrequency,  String iconPath,  int accentColorValue,  List<String> tags)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  BrainwaveBand band,  double beatFrequency,  double defaultCarrierFrequency,  double minCarrierFrequency,  double maxCarrierFrequency,  String iconPath,  int accentColorValue,  List<String> tags,  Duration defaultDuration,  bool isPremium,  double defaultVolume,  Map<String, dynamic>? metadata)  $default,) {final _that = this;
 switch (_that) {
 case _BrainwavePreset():
-return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequency,_that.defaultCarrierFrequency,_that.minCarrierFrequency,_that.maxCarrierFrequency,_that.iconPath,_that.accentColorValue,_that.tags);case _:
+return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequency,_that.defaultCarrierFrequency,_that.minCarrierFrequency,_that.maxCarrierFrequency,_that.iconPath,_that.accentColorValue,_that.tags,_that.defaultDuration,_that.isPremium,_that.defaultVolume,_that.metadata);case _:
   throw StateError('Unexpected subclass');
 
 }
 }
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  BrainwaveBand band,  double beatFrequency,  double defaultCarrierFrequency,  double minCarrierFrequency,  double maxCarrierFrequency,  String iconPath,  int accentColorValue,  List<String> tags)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  BrainwaveBand band,  double beatFrequency,  double defaultCarrierFrequency,  double minCarrierFrequency,  double maxCarrierFrequency,  String iconPath,  int accentColorValue,  List<String> tags,  Duration defaultDuration,  bool isPremium,  double defaultVolume,  Map<String, dynamic>? metadata)?  $default,) {final _that = this;
 switch (_that) {
 case _BrainwavePreset() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequency,_that.defaultCarrierFrequency,_that.minCarrierFrequency,_that.maxCarrierFrequency,_that.iconPath,_that.accentColorValue,_that.tags);case _:
+return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequency,_that.defaultCarrierFrequency,_that.minCarrierFrequency,_that.maxCarrierFrequency,_that.iconPath,_that.accentColorValue,_that.tags,_that.defaultDuration,_that.isPremium,_that.defaultVolume,_that.metadata);case _:
   return null;
 
 }
@@ -218,8 +154,8 @@ return $default(_that.id,_that.name,_that.description,_that.band,_that.beatFrequ
 /// @nodoc
 @JsonSerializable()
 
-class _BrainwavePreset implements BrainwavePreset {
-  const _BrainwavePreset({required this.id, required this.name, required this.description, required this.band, required this.beatFrequency, this.defaultCarrierFrequency = 250.0, this.minCarrierFrequency = 100.0, this.maxCarrierFrequency = 500.0, required this.iconPath, required this.accentColorValue, final  List<String> tags = const []}): _tags = tags;
+class _BrainwavePreset extends BrainwavePreset {
+  const _BrainwavePreset({required this.id, required this.name, required this.description, required this.band, required this.beatFrequency, this.defaultCarrierFrequency = 250.0, this.minCarrierFrequency = 100.0, this.maxCarrierFrequency = 500.0, required this.iconPath, required this.accentColorValue, final  List<String> tags = const [], this.defaultDuration = const Duration(minutes: 15), this.isPremium = false, this.defaultVolume = 0.8, final  Map<String, dynamic>? metadata}): _tags = tags, _metadata = metadata, super._();
   factory _BrainwavePreset.fromJson(Map<String, dynamic> json) => _$BrainwavePresetFromJson(json);
 
 @override final  String id;
@@ -238,6 +174,17 @@ class _BrainwavePreset implements BrainwavePreset {
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_tags);
 }
+@override@JsonKey() final  Duration defaultDuration;
+@override@JsonKey() final  bool isPremium;
+@override@JsonKey() final  double defaultVolume;
+ final  Map<String, dynamic>? _metadata;
+@override Map<String, dynamic>? get metadata {
+  final value = _metadata;
+  if (value == null) return null;
+  if (_metadata is EqualUnmodifiableMapView) return _metadata;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
 
 
 /// Create a copy of BrainwavePreset
@@ -253,16 +200,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BrainwavePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.band, band) || other.band == band)&&(identical(other.beatFrequency, beatFrequency) || other.beatFrequency == beatFrequency)&&(identical(other.defaultCarrierFrequency, defaultCarrierFrequency) || other.defaultCarrierFrequency == defaultCarrierFrequency)&&(identical(other.minCarrierFrequency, minCarrierFrequency) || other.minCarrierFrequency == minCarrierFrequency)&&(identical(other.maxCarrierFrequency, maxCarrierFrequency) || other.maxCarrierFrequency == maxCarrierFrequency)&&(identical(other.iconPath, iconPath) || other.iconPath == iconPath)&&(identical(other.accentColorValue, accentColorValue) || other.accentColorValue == accentColorValue)&&const DeepCollectionEquality().equals(other._tags, _tags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BrainwavePreset&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.band, band) || other.band == band)&&(identical(other.beatFrequency, beatFrequency) || other.beatFrequency == beatFrequency)&&(identical(other.defaultCarrierFrequency, defaultCarrierFrequency) || other.defaultCarrierFrequency == defaultCarrierFrequency)&&(identical(other.minCarrierFrequency, minCarrierFrequency) || other.minCarrierFrequency == minCarrierFrequency)&&(identical(other.maxCarrierFrequency, maxCarrierFrequency) || other.maxCarrierFrequency == maxCarrierFrequency)&&(identical(other.iconPath, iconPath) || other.iconPath == iconPath)&&(identical(other.accentColorValue, accentColorValue) || other.accentColorValue == accentColorValue)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.defaultDuration, defaultDuration) || other.defaultDuration == defaultDuration)&&(identical(other.isPremium, isPremium) || other.isPremium == isPremium)&&(identical(other.defaultVolume, defaultVolume) || other.defaultVolume == defaultVolume)&&const DeepCollectionEquality().equals(other._metadata, _metadata));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,band,beatFrequency,defaultCarrierFrequency,minCarrierFrequency,maxCarrierFrequency,iconPath,accentColorValue,const DeepCollectionEquality().hash(_tags));
+int get hashCode => Object.hash(runtimeType,id,name,description,band,beatFrequency,defaultCarrierFrequency,minCarrierFrequency,maxCarrierFrequency,iconPath,accentColorValue,const DeepCollectionEquality().hash(_tags),defaultDuration,isPremium,defaultVolume,const DeepCollectionEquality().hash(_metadata));
 
 @override
 String toString() {
-  return 'BrainwavePreset(id: $id, name: $name, description: $description, band: $band, beatFrequency: $beatFrequency, defaultCarrierFrequency: $defaultCarrierFrequency, minCarrierFrequency: $minCarrierFrequency, maxCarrierFrequency: $maxCarrierFrequency, iconPath: $iconPath, accentColorValue: $accentColorValue, tags: $tags)';
+  return 'BrainwavePreset(id: $id, name: $name, description: $description, band: $band, beatFrequency: $beatFrequency, defaultCarrierFrequency: $defaultCarrierFrequency, minCarrierFrequency: $minCarrierFrequency, maxCarrierFrequency: $maxCarrierFrequency, iconPath: $iconPath, accentColorValue: $accentColorValue, tags: $tags, defaultDuration: $defaultDuration, isPremium: $isPremium, defaultVolume: $defaultVolume, metadata: $metadata)';
 }
 
 
@@ -273,7 +220,7 @@ abstract mixin class _$BrainwavePresetCopyWith<$Res> implements $BrainwavePreset
   factory _$BrainwavePresetCopyWith(_BrainwavePreset value, $Res Function(_BrainwavePreset) _then) = __$BrainwavePresetCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String description, BrainwaveBand band, double beatFrequency, double defaultCarrierFrequency, double minCarrierFrequency, double maxCarrierFrequency, String iconPath, int accentColorValue, List<String> tags
+ String id, String name, String description, BrainwaveBand band, double beatFrequency, double defaultCarrierFrequency, double minCarrierFrequency, double maxCarrierFrequency, String iconPath, int accentColorValue, List<String> tags, Duration defaultDuration, bool isPremium, double defaultVolume, Map<String, dynamic>? metadata
 });
 
 
@@ -290,7 +237,7 @@ class __$BrainwavePresetCopyWithImpl<$Res>
 
 /// Create a copy of BrainwavePreset
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? band = null,Object? beatFrequency = null,Object? defaultCarrierFrequency = null,Object? minCarrierFrequency = null,Object? maxCarrierFrequency = null,Object? iconPath = null,Object? accentColorValue = null,Object? tags = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? band = null,Object? beatFrequency = null,Object? defaultCarrierFrequency = null,Object? minCarrierFrequency = null,Object? maxCarrierFrequency = null,Object? iconPath = null,Object? accentColorValue = null,Object? tags = null,Object? defaultDuration = null,Object? isPremium = null,Object? defaultVolume = null,Object? metadata = freezed,}) {
   return _then(_BrainwavePreset(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -303,7 +250,11 @@ as double,maxCarrierFrequency: null == maxCarrierFrequency ? _self.maxCarrierFre
 as double,iconPath: null == iconPath ? _self.iconPath : iconPath // ignore: cast_nullable_to_non_nullable
 as String,accentColorValue: null == accentColorValue ? _self.accentColorValue : accentColorValue // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,defaultDuration: null == defaultDuration ? _self.defaultDuration : defaultDuration // ignore: cast_nullable_to_non_nullable
+as Duration,isPremium: null == isPremium ? _self.isPremium : isPremium // ignore: cast_nullable_to_non_nullable
+as bool,defaultVolume: null == defaultVolume ? _self.defaultVolume : defaultVolume // ignore: cast_nullable_to_non_nullable
+as double,metadata: freezed == metadata ? _self._metadata : metadata // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,
   ));
 }
 
