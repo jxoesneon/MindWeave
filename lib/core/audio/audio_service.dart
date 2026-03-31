@@ -76,9 +76,9 @@ class AudioService {
       // Activate session before playing
       final session = _injectedAudioSession ?? await AudioSession.instance;
       if (await session.setActive(true)) {
-        // Play sounds
-        _leftHandle = await _soloud.play(_leftSource!);
-        _rightHandle = await _soloud.play(_rightSource!);
+        // Play sounds with looping enabled for gapless playback (AU-007)
+        _leftHandle = await _soloud.play(_leftSource!, looping: true);
+        _rightHandle = await _soloud.play(_rightSource!, looping: true);
 
         if (_leftHandle != null && _rightHandle != null) {
           // Pan hard left/right
@@ -89,6 +89,10 @@ class AudioService {
           _soloud.setVolume(_leftHandle!, volume);
           _soloud.setVolume(_rightHandle!, volume);
 
+          // Store initial frequencies for relative speed calculations
+          _leftBaseFreq = leftFreq;
+          _rightBaseFreq = rightFreq;
+
           _log.info('Started binaural: $leftFreq Hz (L) / $rightFreq Hz (R)');
         }
       } else {
@@ -97,17 +101,16 @@ class AudioService {
     }
   }
 
+  double _leftBaseFreq = 200.0;
+  double _rightBaseFreq = 210.0;
+
   void updateFrequencies(double leftFreq, double rightFreq) {
     if (_leftHandle != null && _rightHandle != null) {
-      // Note: flutter_soloud high-level API might not support updating waveform frequency on an active handle easily
-      // Usually, it requires re-generating or using a synth.
-      // For now, let's try to set frequency if supported, or we'll have to restart.
-      // In SoLoud FFI, we can set relative speed.
-      _soloud.setRelativePlaySpeed(
-        _leftHandle!,
-        leftFreq / 440.0,
-      ); // Assuming 440 default
-      _soloud.setRelativePlaySpeed(_rightHandle!, rightFreq / 440.0);
+      // Use relative play speed based on the actual base frequency, not 440Hz
+      if (_leftBaseFreq > 0 && _rightBaseFreq > 0) {
+        _soloud.setRelativePlaySpeed(_leftHandle!, leftFreq / _leftBaseFreq);
+        _soloud.setRelativePlaySpeed(_rightHandle!, rightFreq / _rightBaseFreq);
+      }
     }
   }
 
@@ -115,6 +118,11 @@ class AudioService {
     Uint8List wavData, {
     double volume = 0.2,
   }) async {
+    // Guard against uninitialized SoLoud
+    if (!_soloud.isInitialized) {
+      _log.warning('SoLoud not initialized yet, skipping background noise');
+      return;
+    }
     if (_noiseHandle != null) {
       await _soloud.stop(_noiseHandle!);
       _noiseHandle = null;

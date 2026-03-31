@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'audio_service.dart';
 import 'audio_service_provider.dart';
 import 'audio_state.dart';
 import 'binaural_calculator.dart';
+import 'notification_service.dart';
 import '../models/brainwave_preset.dart';
 import '../models/user_preset.dart';
+import '../../core/services/session_history_service.dart';
+import '../../core/services/analytics_service.dart';
+import '../../features/health/health_controller.dart';
 
 part 'audio_controller.g.dart';
 
@@ -13,18 +18,31 @@ part 'audio_controller.g.dart';
 class AudioController extends _$AudioController {
   late final AudioService _audioService;
   final _calculator = BinauralFrequencyCalculator();
+  final _sessionHistoryService = SessionHistoryService();
+  final _notificationService = AudioNotificationService();
   Timer? _timer;
   double _initialVolume = 0.5;
+  String? _currentSessionId;
+  DateTime? _sessionStartTime;
 
   @override
   AudioState build() {
     _audioService = ref.read(audioServiceProvider);
     _initialVolume = 0.5;
 
-    _audioService.init();
+    // Initialize services with error handling - don't crash if they fail
+    _initServices();
+
+    // Wire notification callbacks
+    _notificationService.onPlay = () => togglePlay();
+    _notificationService.onPause = () => togglePlay();
+    _notificationService.onStop = () {
+      if (state.isPlaying) _stop();
+    };
 
     ref.onDispose(() {
       _timer?.cancel();
+      _notificationService.dispose();
     });
 
     return const AudioState(
@@ -33,6 +51,26 @@ class AudioController extends _$AudioController {
       beatFrequency: 10.0,
       volume: 0.5,
     );
+  }
+
+  Future<void> _initServices() async {
+    try {
+      await _audioService.init();
+    } catch (e) {
+      debugPrint('AudioService initialization failed: $e');
+    }
+
+    try {
+      await _sessionHistoryService.initialize();
+    } catch (e) {
+      debugPrint('SessionHistoryService initialization failed: $e');
+    }
+
+    try {
+      await _notificationService.initialize();
+    } catch (e) {
+      debugPrint('NotificationService initialization failed: $e');
+    }
   }
 
   void setTimer(Duration duration) {
@@ -75,13 +113,63 @@ class AudioController extends _$AudioController {
 
   Future<void> _start() async {
     _initialVolume = state.volume;
+    _sessionStartTime = DateTime.now();
+
+    // Start session tracking if we have a preset
+    if (state.selectedPreset != null) {
+      _currentSessionId = await _sessionHistoryService.startSession(
+        preset: state.selectedPreset!,
+        beatFrequency: state.beatFrequency,
+        carrierFrequency: state.carrierFrequency,
+        volume: state.volume,
+        targetDuration: state.timerDuration ?? Duration.zero,
+      );
+    }
+
+    // Track session start analytics
+    AnalyticsService().trackSessionStart(
+      presetId: state.selectedPreset?.id ?? 'custom',
+      band: state.selectedPreset?.band.name ?? 'unknown',
+      beatFrequency: state.beatFrequency,
+      carrierFrequency: state.carrierFrequency,
+    );
+
+    // Fade-in: start at 0 volume and ramp up over 3 seconds
+    _audioService.setVolume(0.0);
     await _play();
     state = state.copyWith(isPlaying: true);
+    _fadeIn();
+
+    // Show playback notification
+    final presetName = state.selectedPreset?.name ?? 'Custom Session';
+    _notificationService.showPlaybackNotification(
+      presetName: presetName,
+      beatFrequency: state.beatFrequency,
+      isPlaying: true,
+    );
 
     // Start countdown if timer is set
     if (state.remainingTime != null && state.remainingTime! > Duration.zero) {
       _startCountdown();
     }
+  }
+
+  void _fadeIn() {
+    const fadeSteps = 30; // 30 steps over ~3 seconds
+    const stepDuration = Duration(milliseconds: 100);
+    var step = 0;
+
+    Timer.periodic(stepDuration, (timer) {
+      step++;
+      final progress = step / fadeSteps;
+      final fadedVolume = _initialVolume * progress;
+      _audioService.setVolume(fadedVolume.clamp(0.0, _initialVolume));
+
+      if (step >= fadeSteps) {
+        timer.cancel();
+        _audioService.setVolume(_initialVolume);
+      }
+    });
   }
 
   Future<void> _stop() async {
@@ -96,6 +184,44 @@ class AudioController extends _$AudioController {
     );
     // Reset volume to initial if it was faded
     _audioService.setVolume(_initialVolume);
+
+    // Hide notification
+    _notificationService.hideNotification();
+
+    // Complete session tracking
+    if (_currentSessionId != null && _sessionStartTime != null) {
+      final duration = DateTime.now().difference(_sessionStartTime!);
+
+      // Complete session in history
+      await _sessionHistoryService.completeSession(
+        sessionId: _currentSessionId!,
+        actualDuration: duration,
+      );
+
+      // Log to HealthKit (mindful minutes)
+      try {
+        final healthController = ref.read(healthControllerProvider.notifier);
+        await healthController.logSession(
+          startTime: _sessionStartTime!,
+          duration: duration,
+          presetName: state.selectedPreset?.name,
+          beatFrequency: state.beatFrequency,
+        );
+      } catch (e) {
+        // HealthKit logging is optional, don't fail if it doesn't work
+        debugPrint('HealthKit logging failed: $e');
+      }
+
+      // Track session stop analytics
+      AnalyticsService().trackSessionStop(
+        presetId: state.selectedPreset?.id ?? 'custom',
+        durationSeconds: duration.inSeconds,
+        completed: (state.remainingTime?.inSeconds ?? 1) <= 0,
+      );
+
+      _currentSessionId = null;
+      _sessionStartTime = null;
+    }
   }
 
   void _startCountdown() {
@@ -141,6 +267,17 @@ class AudioController extends _$AudioController {
 
   void updateCarrierFreq(double freq) {
     state = state.copyWith(carrierFrequency: freq);
+    if (state.isPlaying) {
+      final result = _calculator.calculate(
+        carrierFreq: state.carrierFrequency,
+        beatFreq: state.beatFrequency,
+      );
+      _audioService.updateFrequencies(result.leftFreq, result.rightFreq);
+    }
+  }
+
+  void updateBeatFrequency(double freq) {
+    state = state.copyWith(beatFrequency: freq);
     if (state.isPlaying) {
       final result = _calculator.calculate(
         carrierFreq: state.carrierFrequency,

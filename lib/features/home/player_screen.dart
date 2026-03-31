@@ -16,13 +16,56 @@ import '../../features/streaks/streak_controller.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
 
+import '../../core/services/deep_link_service.dart';
 import '../../core/session/user_session_controller.dart';
+import '../../core/repository/session_repository.dart';
+import '../../core/models/user_session.dart';
+import '../../features/history/session_history_screen.dart';
 
-class PlayerScreen extends ConsumerWidget {
-  const PlayerScreen({super.key});
+class PlayerScreen extends ConsumerStatefulWidget {
+  final DeepLinkService? deepLinkService;
+
+  const PlayerScreen({super.key, this.deepLinkService});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PlayerScreen> createState() => _PlayerScreenState();
+}
+
+class _PlayerScreenState extends ConsumerState<PlayerScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Set up deep link callback if service is provided
+    widget.deepLinkService?.onPresetReceived = (link) {
+      _handleSharedPreset(link);
+    };
+  }
+
+  void _handleSharedPreset(SharedPresetLink link) {
+    final notifier = ref.read(audioControllerProvider.notifier);
+    notifier.updateCarrierFreq(link.carrierFrequency);
+    notifier.updateBeatFrequency(link.beatFrequency);
+    // Apply noise type if provided
+    if (link.noiseType != null) {
+      final mixerNotifier = ref.read(mixerControllerProvider.notifier);
+      // Parse noise type from string
+      final noiseType = NoiseType.values.firstWhere(
+        (t) => t.name == link.noiseType,
+        orElse: () => NoiseType.none,
+      );
+      mixerNotifier.setNoiseType(noiseType);
+    }
+    // Show snackbar to confirm preset loaded
+    if (mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Shared preset loaded')));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.watch(userSessionControllerProvider);
 
     final audioState = ref.watch(audioControllerProvider);
@@ -296,18 +339,22 @@ class PlayerScreen extends ConsumerWidget {
             children: [
               _IconButton(
                 icon: Icons.share_outlined,
+                tooltip: 'Share preset',
                 onPressed: () => _handleShare(context, ref),
               ),
               _IconButton(
                 icon: Icons.health_and_safety_outlined,
+                tooltip: 'Health sync',
                 onPressed: () => _showHealthSync(context, ref),
               ),
               _IconButton(
                 icon: Icons.library_music_outlined,
+                tooltip: 'Library',
                 onPressed: () => _showLibrary(context),
               ),
               _IconButton(
                 icon: Icons.timer_outlined,
+                tooltip: 'Timer',
                 onPressed: () => _showTimerPicker(context, ref),
               ),
             ],
@@ -382,7 +429,9 @@ class PlayerScreen extends ConsumerWidget {
 Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
 ''';
 
-    Share.share(shareText, subject: 'MindWeave Preset');
+    SharePlus.instance.share(
+      ShareParams(text: shareText, title: 'MindWeave Preset'),
+    );
   }
 
   void _showHealthSync(BuildContext context, WidgetRef ref) {
@@ -494,6 +543,12 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
     );
   }
 
+  String _formatDesktopTimer(Duration d) {
+    final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
   // Desktop layout helper methods
   Widget _buildDesktopTopNav(BuildContext context, WidgetRef ref) {
     return Container(
@@ -539,11 +594,10 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
           _DesktopNavLink(
             'Journals',
             false,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Journals coming soon!')),
-              );
-            },
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SessionHistoryScreen()),
+            ),
           ),
           const Spacer(),
           Container(
@@ -677,10 +731,10 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
               border: Border.all(color: AppColors.outlineVariant.withAlpha(51)),
             ),
             padding: const EdgeInsets.all(20),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'SESSION STATS',
                   style: TextStyle(
                     fontSize: 12,
@@ -689,26 +743,8 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
                     letterSpacing: 1,
                   ),
                 ),
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _DesktopStatCard(
-                        value: '127',
-                        label: 'Sessions',
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: _DesktopStatCard(
-                        value: '42h',
-                        label: 'Total Time',
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 16),
+                _DesktopSessionStats(),
               ],
             ),
           ),
@@ -856,26 +892,28 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
                     color: AppColors.outlineVariant.withAlpha(51),
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.timer_outlined,
                       size: 18,
                       color: AppColors.onSurfaceVariant,
                     ),
-                    SizedBox(width: 8),
-                    Text(
+                    const SizedBox(width: 8),
+                    const Text(
                       'Session Time:',
                       style: TextStyle(
                         fontSize: 14,
                         color: AppColors.onSurfaceVariant,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
-                      '14:32',
-                      style: TextStyle(
+                      audioState.remainingTime != null
+                          ? _formatDesktopTimer(audioState.remainingTime!)
+                          : '--:--',
+                      style: const TextStyle(
                         fontSize: 18,
                         fontFamily: 'monospace',
                         color: AppColors.onSurface,
@@ -1007,34 +1045,54 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
                   const SizedBox(height: 16),
                   Expanded(
                     child: ListView(
-                      children: const [
+                      children: [
                         _DesktopMixerItem(
-                          icon: Icons.water,
-                          title: 'Rain',
-                          subtitle: 'Gentle rainfall',
-                          value: 0.3,
-                          isActive: false,
+                          icon: Icons.block,
+                          title: 'None',
+                          subtitle: 'No background',
+                          value: mixerState.noiseType == NoiseType.none
+                              ? 0
+                              : mixerState.backgroundVolume,
+                          isActive: mixerState.noiseType == NoiseType.none,
+                          onTap: () => ref
+                              .read(mixerControllerProvider.notifier)
+                              .setNoiseType(NoiseType.none),
                         ),
                         _DesktopMixerItem(
-                          icon: Icons.forest,
-                          title: 'Forest',
-                          subtitle: 'Birds & rustling',
-                          value: 0.45,
-                          isActive: true,
+                          icon: Icons.graphic_eq,
+                          title: 'White Noise',
+                          subtitle: 'Steady static',
+                          value: mixerState.noiseType == NoiseType.white
+                              ? mixerState.backgroundVolume
+                              : 0,
+                          isActive: mixerState.noiseType == NoiseType.white,
+                          onTap: () => ref
+                              .read(mixerControllerProvider.notifier)
+                              .setNoiseType(NoiseType.white),
                         ),
                         _DesktopMixerItem(
                           icon: Icons.waves,
-                          title: 'Ocean',
-                          subtitle: 'Waves crashing',
-                          value: 0,
-                          isActive: false,
+                          title: 'Pink Noise',
+                          subtitle: 'Warm & natural',
+                          value: mixerState.noiseType == NoiseType.pink
+                              ? mixerState.backgroundVolume
+                              : 0,
+                          isActive: mixerState.noiseType == NoiseType.pink,
+                          onTap: () => ref
+                              .read(mixerControllerProvider.notifier)
+                              .setNoiseType(NoiseType.pink),
                         ),
                         _DesktopMixerItem(
-                          icon: Icons.air,
-                          title: 'Wind',
-                          subtitle: 'Soft breeze',
-                          value: 0,
-                          isActive: false,
+                          icon: Icons.water,
+                          title: 'Brown Noise',
+                          subtitle: 'Deep rumble',
+                          value: mixerState.noiseType == NoiseType.brown
+                              ? mixerState.backgroundVolume
+                              : 0,
+                          isActive: mixerState.noiseType == NoiseType.brown,
+                          onTap: () => ref
+                              .read(mixerControllerProvider.notifier)
+                              .setNoiseType(NoiseType.brown),
                         ),
                       ],
                     ),
@@ -1051,29 +1109,35 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
               border: Border.all(color: AppColors.outlineVariant.withAlpha(51)),
             ),
             padding: const EdgeInsets.all(20),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Sleep Timer',
                   style: TextStyle(
-                    fontSize: 48,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: AppColors.onSurface,
                     fontFamily: 'Space Grotesk',
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
-                  children: [
-                    _DesktopTimerChip(label: '15m', isSelected: false),
-                    SizedBox(width: 8),
-                    _DesktopTimerChip(label: '30m', isSelected: false),
-                    SizedBox(width: 8),
-                    _DesktopTimerChip(label: '45m', isSelected: false),
-                    SizedBox(width: 8),
-                    _DesktopTimerChip(label: '60m', isSelected: true),
-                  ],
+                  children: [15, 30, 45, 60].map((mins) {
+                    final isSet = audioState.timerDuration?.inMinutes == mins;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: GestureDetector(
+                        onTap: () => ref
+                            .read(audioControllerProvider.notifier)
+                            .setTimer(Duration(minutes: mins)),
+                        child: _DesktopTimerChip(
+                          label: '${mins}m',
+                          isSelected: isSet,
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
@@ -1087,8 +1151,13 @@ Listen at: mindweave://share?c=$carrier&b=$beat&n=$noise
 class _IconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
+  final String? tooltip;
 
-  const _IconButton({required this.icon, required this.onPressed});
+  const _IconButton({
+    required this.icon,
+    required this.onPressed,
+    this.tooltip,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1096,6 +1165,7 @@ class _IconButton extends StatelessWidget {
       icon: Icon(icon, color: AppColors.onSurfaceVariant, size: 22),
       onPressed: onPressed,
       splashRadius: 24,
+      tooltip: tooltip,
     );
   }
 }
@@ -1257,27 +1327,31 @@ class _PlaybackControls extends StatelessWidget {
         const SizedBox(width: 24),
 
         // Play/Pause button
-        GestureDetector(
-          onTap: onToggle,
-          child: Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: accentColor.withAlpha(26),
-              border: Border.all(color: accentColor.withAlpha(77), width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: accentColor.withAlpha(51),
-                  blurRadius: 30,
-                  spreadRadius: 5,
-                ),
-              ],
-            ),
-            child: Icon(
-              isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-              size: 40,
-              color: accentColor,
+        Semantics(
+          label: isPlaying ? 'Pause meditation' : 'Play meditation',
+          button: true,
+          child: GestureDetector(
+            onTap: onToggle,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: accentColor.withAlpha(26),
+                border: Border.all(color: accentColor.withAlpha(77), width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: accentColor.withAlpha(51),
+                    blurRadius: 30,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+              child: Icon(
+                isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                size: 40,
+                color: accentColor,
+              ),
             ),
           ),
         ),
@@ -1318,9 +1392,12 @@ class _ControlSlider extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'label',
-              style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
+            Text(
+              label,
+              style: const TextStyle(
+                color: AppColors.onSurfaceVariant,
+                fontSize: 13,
+              ),
             ),
             Text(
               '${value.toInt()}$suffix',
@@ -1847,7 +1924,7 @@ class StreakBadge extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (_, _) => const SizedBox.shrink(),
+      error: (err, stack) => const SizedBox.shrink(),
     );
   }
 }
@@ -1946,9 +2023,9 @@ class _DesktopPresetListItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text(
-                  'preset.name',
-                  style: TextStyle(
+                Text(
+                  preset.name,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppColors.onSurface,
@@ -1964,9 +2041,10 @@ class _DesktopPresetListItem extends StatelessWidget {
                     color: _bandColor.withAlpha(26),
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Text(
-                    'preset.band.name.substring(0, 1).toUpperCase() + preset.band.name.substring(1)',
-                    style: TextStyle(
+                  child: Text(
+                    preset.band.name[0].toUpperCase() +
+                        preset.band.name.substring(1),
+                    style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: AppColors.onSurfaceVariant,
@@ -1976,13 +2054,17 @@ class _DesktopPresetListItem extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               children: [
-                Icon(Icons.waves, size: 14, color: AppColors.onSurfaceVariant),
-                SizedBox(width: 6),
+                const Icon(
+                  Icons.waves,
+                  size: 14,
+                  color: AppColors.onSurfaceVariant,
+                ),
+                const SizedBox(width: 6),
                 Text(
-                  'preset.beatFrequency.toStringAsFixed(1)Hz',
-                  style: TextStyle(
+                  '${preset.beatFrequency.toStringAsFixed(1)}Hz',
+                  style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.onSurfaceVariant,
                     letterSpacing: 2,
@@ -1993,6 +2075,50 @@ class _DesktopPresetListItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DesktopSessionStats extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.watch(sessionRepositoryProvider);
+    return FutureBuilder<List<UserSession>>(
+      future: repo.getSessions(),
+      builder: (context, snapshot) {
+        final sessions = snapshot.data ?? [];
+        final totalSessions = sessions.length;
+        final totalSeconds = sessions.fold<int>(
+          0,
+          (sum, s) => sum + s.durationSeconds,
+        );
+        final totalMinutes = totalSeconds ~/ 60;
+        final totalHours = totalMinutes ~/ 60;
+        final remainingMins = totalMinutes % 60;
+        final timeLabel = totalHours > 0
+            ? '${totalHours}h${remainingMins > 0 ? ' ${remainingMins}m' : ''}'
+            : '${totalMinutes}m';
+
+        return Row(
+          children: [
+            Expanded(
+              child: _DesktopStatCard(
+                value: '$totalSessions',
+                label: 'Sessions',
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _DesktopStatCard(
+                value: timeLabel,
+                label: 'Total Time',
+                color: AppColors.secondary,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -2094,6 +2220,7 @@ class _DesktopPlayButton extends StatelessWidget {
           size: 32,
         ),
         onPressed: onPressed,
+        tooltip: isPlaying ? 'Pause meditation' : 'Play meditation',
       ),
     );
   }
@@ -2105,6 +2232,7 @@ class _DesktopMixerItem extends StatelessWidget {
   final String subtitle;
   final double value;
   final bool isActive;
+  final VoidCallback? onTap;
 
   const _DesktopMixerItem({
     required this.icon,
@@ -2112,72 +2240,80 @@ class _DesktopMixerItem extends StatelessWidget {
     required this.subtitle,
     required this.value,
     required this.isActive,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: isActive
-            ? AppColors.primary.withAlpha(26)
-            : AppColors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
           color: isActive
-              ? AppColors.primary.withAlpha(77)
-              : Colors.transparent,
+              ? AppColors.primary.withAlpha(26)
+              : AppColors.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isActive
+                ? AppColors.primary.withAlpha(77)
+                : Colors.transparent,
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: isActive
-                  ? AppColors.primary.withAlpha(51)
-                  : AppColors.surfaceContainerHigh,
-              borderRadius: BorderRadius.circular(10),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: isActive
+                    ? AppColors.primary.withAlpha(51)
+                    : AppColors.surfaceContainerHigh,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                color: isActive
+                    ? AppColors.primary
+                    : AppColors.onSurfaceVariant,
+              ),
             ),
-            child: Icon(
-              icon,
-              color: isActive ? AppColors.primary : AppColors.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.onSurface,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.onSurface,
+                    ),
                   ),
-                ),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.onSurfaceVariant,
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.onSurfaceVariant,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Text(
-            '${(value * 100).toInt()}%',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: isActive ? AppColors.primary : AppColors.onSurfaceVariant,
+            Text(
+              '${(value * 100).toInt()}%',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: isActive
+                    ? AppColors.primary
+                    : AppColors.onSurfaceVariant,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

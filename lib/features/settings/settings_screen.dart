@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/services/analytics_service.dart';
+import '../../features/health/health_controller.dart';
+import 'theme_controller.dart';
+
+final analyticsEnabledProvider = FutureProvider<bool>((ref) async {
+  return AnalyticsService().isOptedIn();
+});
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -9,15 +16,47 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isDesktop = screenWidth >= 1024;
+    final themeMode = ref.watch(themeModeProvider);
+    final healthState = ref.watch(healthControllerProvider);
+
+    final isDarkMode = themeMode.when(
+      data: (mode) => mode == ThemeMode.dark,
+      loading: () => true,
+      error: (_, _) => true,
+    );
+
+    final isHealthSyncEnabled = healthState.when(
+      data: (state) => state.todayMindfulMinutes != null,
+      loading: () => false,
+      error: (_, _) => false,
+    );
 
     if (isDesktop) {
-      return _buildDesktopLayout(context, ref);
+      return _buildDesktopLayout(
+        context,
+        ref,
+        healthState,
+        isDarkMode,
+        isHealthSyncEnabled,
+      );
     }
 
-    return _buildMobileLayout(context, ref);
+    return _buildMobileLayout(
+      context,
+      ref,
+      healthState,
+      isDarkMode,
+      isHealthSyncEnabled,
+    );
   }
 
-  Widget _buildMobileLayout(BuildContext context, WidgetRef ref) {
+  Widget _buildMobileLayout(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<HealthState> healthState,
+    bool isDarkMode,
+    bool isHealthSyncEnabled,
+  ) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -383,8 +422,10 @@ class SettingsScreen extends ConsumerWidget {
                     _SettingsToggle(
                       icon: Icons.dark_mode,
                       label: 'Dark Mode',
-                      value: true,
-                      onChanged: (v) {},
+                      value: isDarkMode,
+                      onChanged: (v) {
+                        ref.read(themeModeProvider.notifier).toggleTheme();
+                      },
                     ),
                     const SizedBox(height: 8),
                     _SettingsToggle(
@@ -397,16 +438,75 @@ class SettingsScreen extends ConsumerWidget {
                     _SettingsToggle(
                       icon: Icons.health_and_safety,
                       label: 'Health Sync',
-                      value: false,
-                      onChanged: (v) {},
+                      value: isHealthSyncEnabled,
+                      onChanged: (v) async {
+                        if (v) {
+                          final success = await ref
+                              .read(healthControllerProvider.notifier)
+                              .requestPermissions();
+                          if (success && context.mounted) {
+                            await ref
+                                .read(healthControllerProvider.notifier)
+                                .syncSleepData();
+                          }
+                        }
+                      },
+                    ),
+                    // Health Sync Status Indicator
+                    healthState.when(
+                      data: (state) {
+                        if (state.todayMindfulMinutes != null) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              left: 56,
+                              top: 4,
+                              bottom: 8,
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.check_circle,
+                                  size: 14,
+                                  color: AppColors.primary,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${state.todayMindfulMinutes} mindful minutes today',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                      loading: () => const SizedBox.shrink(),
+                      error: (_, _) => const SizedBox.shrink(),
                     ),
                     const SizedBox(height: 8),
                     _SettingsToggle(
-                      icon: Icons.notifications,
-                      label: 'Notifications',
-                      value: false,
-                      onChanged: (v) {},
+                      icon: Icons.analytics_outlined,
+                      label: 'Analytics',
+                      value: ref
+                          .watch(analyticsEnabledProvider)
+                          .when(
+                            data: (v) => v,
+                            loading: () => true,
+                            error: (_, _) => true,
+                          ),
+                      onChanged: (v) async {
+                        if (v) {
+                          await AnalyticsService().enable();
+                        } else {
+                          await AnalyticsService().disable();
+                        }
+                        ref.invalidate(analyticsEnabledProvider);
+                      },
                     ),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -449,7 +549,13 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDesktopLayout(BuildContext context, WidgetRef ref) {
+  Widget _buildDesktopLayout(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<HealthState> healthState,
+    bool isDarkMode,
+    bool isHealthSyncEnabled,
+  ) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(

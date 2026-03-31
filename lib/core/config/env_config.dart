@@ -6,8 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 /// 1. Development: Loads from .env file via flutter_dotenv
 /// 2. Production: Uses compile-time environment variables (--dart-define)
 ///
-/// For production builds, use:
-/// flutter build <platform> --dart-define=SUPABASE_URL=url --dart-define=SUPABASE_ANON_KEY=key
+/// For production builds, use: `flutter build <platform> --dart-define=SUPABASE_URL=url --dart-define=SUPABASE_ANON_KEY=key`
 class EnvConfig {
   static final EnvConfig _instance = EnvConfig._internal();
   factory EnvConfig() => _instance;
@@ -64,6 +63,20 @@ class EnvConfig {
 
     // Fall back to .env file (development)
     return dotenv.get('SUPABASE_ANON_KEY', fallback: '');
+  }
+
+  /// Get PostHog API Key
+  String get posthogApiKey {
+    const compileTimeValue = String.fromEnvironment('POSTHOG_API_KEY');
+    if (compileTimeValue.isNotEmpty) return compileTimeValue;
+    return dotenv.get('POSTHOG_API_KEY', fallback: '');
+  }
+
+  /// Get PostHog Host (defaults to PostHog Cloud US)
+  String get posthogHost {
+    const compileTimeValue = String.fromEnvironment('POSTHOG_HOST');
+    if (compileTimeValue.isNotEmpty) return compileTimeValue;
+    return dotenv.get('POSTHOG_HOST', fallback: 'https://us.i.posthog.com');
   }
 
   /// Check if running in production mode (compile-time vars present)

@@ -117,3 +117,109 @@ class AppColors {
   static Color get secondaryAura =>
       const Color(0xFF00D9C0).withAlpha(38); // 0.15 * 255
 }
+
+/// Light Mode Colors for MindWeave
+///
+/// Light theme maintains the same brand identity while providing
+/// a clean, bright interface for daytime use.
+class AppColorsLight {
+  // Core Foundation (Light)
+  static const Color background = Color(0xFFF5F5F7);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color surfaceDim = Color(0xFFDDDDE1);
+  static const Color surfaceBright = Color(0xFFFFFFFF);
+
+  // Surface Container Hierarchy (Light)
+  static const Color surfaceContainerLowest = Color(0xFFFFFFFF);
+  static const Color surfaceContainerLow = Color(0xFFF5F5F7);
+  static const Color surfaceContainer = Color(0xFFEFEFF2);
+  static const Color surfaceContainerHigh = Color(0xFFE5E5EA);
+  static const Color surfaceContainerHighest = Color(0xFFDBDBE1);
+  static const Color surfaceVariant = Color(0xFFDBDBE1);
+
+  // Primary Palette (Light Purple)
+  static const Color primary = Color(0xFF5A4FCF);
+  static const Color primaryContainer = Color(0xFFE5DEFF);
+  static const Color primaryFixed = Color(0xFFE5DEFF);
+  static const Color primaryFixedDim = Color(0xFFC8BFFF);
+  static const Color onPrimary = Color(0xFFFFFFFF);
+  static const Color onPrimaryContainer = Color(0xFF26008B);
+  static const Color onPrimaryFixed = Color(0xFF190064);
+  static const Color onPrimaryFixedVariant = Color(0xFF442BB5);
+  static const Color inversePrimary = Color(0xFF7B68EE);
+  static const Color surfaceTint = Color(0xFF5A4FCF);
+
+  // Secondary Palette (Light Turquoise)
+  static const Color secondary = Color(0xFF00B5A0);
+  static const Color secondaryContainer = Color(0xFFB4F5EC);
+  static const Color secondaryFixed = Color(0xFFB4F5EC);
+  static const Color secondaryFixedDim = Color(0xFF1ADEC5);
+  static const Color onSecondary = Color(0xFF003730);
+  static const Color onSecondaryContainer = Color(0xFF00594E);
+  static const Color onSecondaryFixed = Color(0xFF00201B);
+  static const Color onSecondaryFixedVariant = Color(0xFF005046);
+
+  // Tertiary Palette (Light Warm)
+  static const Color tertiary = Color(0xFFFF9800);
+  static const Color tertiaryContainer = Color(0xFFFFE0B2);
+  static const Color tertiaryFixed = Color(0xFFFFE0B2);
+  static const Color tertiaryFixedDim = Color(0xFFFFB86A);
+  static const Color onTertiary = Color(0xFFFFFFFF);
+  static const Color onTertiaryContainer = Color(0xFF3F2300);
+  static const Color onTertiaryFixed = Color(0xFF2C1700);
+  static const Color onTertiaryFixedVariant = Color(0xFF683D00);
+
+  // Content Colors (Light)
+  static const Color onSurface = Color(0xFF1C1C1E);
+  static const Color onSurfaceVariant = Color(0xFF48454A);
+  static const Color onBackground = Color(0xFF1C1C1E);
+  static const Color inverseOnSurface = Color(0xFFF5F5F7);
+  static const Color inverseSurface = Color(0xFF313032);
+
+  // Outlines (Light Ghost Borders)
+  static const Color outline = Color(0xFF79747E);
+  static const Color outlineVariant = Color(0xFFCAC4D0);
+
+  // Error Colors (Light)
+  static const Color error = Color(0xFFFF5252);
+  static const Color errorContainer = Color(0xFFFFDAD6);
+  static const Color onError = Color(0xFFFFFFFF);
+  static const Color onErrorContainer = Color(0xFF410002);
+
+  // Brainwave Band Colors (Light - same as dark for consistency)
+  static const Color delta = Color(0xFF4A90D9); // Deep Sleep (Blue)
+  static const Color theta = Color(0xFF9B59B6); // Meditation (Purple)
+  static const Color alpha = Color(0xFF7B68EE); // Relaxation (Slate Blue)
+  static const Color beta = Color(0xFFE67E22); // Focus (Orange)
+  static const Color gamma = Color(0xFFE74C3C); // Peak (Red)
+
+  // Gradient Helpers (Light)
+  static LinearGradient get primaryGradient => const LinearGradient(
+    colors: [primary, primaryContainer],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static LinearGradient get secondaryGradient => const LinearGradient(
+    colors: [secondary, secondaryContainer],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static LinearGradient get glassGradient => LinearGradient(
+    colors: [
+      surfaceVariant.withAlpha(102), // 0.4 * 255 for light mode
+      surfaceContainer.withAlpha(76), // 0.3 * 255 for light mode
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // Aura Glow Colors (Light)
+  static Color get auraGlow =>
+      const Color(0xFF5A4FCF).withAlpha(25); // 0.1 * 255 for light mode
+  static Color get auraGlowStrong =>
+      const Color(0xFF5A4FCF).withAlpha(51); // 0.2 * 255 for light mode
+  static Color get secondaryAura =>
+      const Color(0xFF00B5A0).withAlpha(25); // 0.1 * 255 for light mode
+}

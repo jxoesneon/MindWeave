@@ -12,7 +12,6 @@ import 'app_typography.dart';
 /// - Glow shadows instead of Material shadows
 
 class AppTheme {
-  // Private constructor
   AppTheme._();
 
   /// Main dark theme
@@ -103,6 +102,129 @@ class AppTheme {
 
       // Floating Action Button Theme
       floatingActionButtonTheme: _floatingActionButtonTheme,
+    );
+  }
+
+  /// Light theme implementation
+  static ThemeData get lightTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+
+      // Color Scheme
+      colorScheme: ColorScheme(
+        brightness: Brightness.light,
+        primary: AppColorsLight.primary,
+        onPrimary: AppColorsLight.onPrimary,
+        primaryContainer: AppColorsLight.primaryContainer,
+        onPrimaryContainer: AppColorsLight.onPrimaryContainer,
+        secondary: AppColorsLight.secondary,
+        onSecondary: AppColorsLight.onSecondary,
+        secondaryContainer: AppColorsLight.secondaryContainer,
+        onSecondaryContainer: AppColorsLight.onSecondaryContainer,
+        tertiary: AppColorsLight.tertiary,
+        onTertiary: AppColorsLight.onTertiary,
+        tertiaryContainer: AppColorsLight.tertiaryContainer,
+        onTertiaryContainer: AppColorsLight.onTertiaryContainer,
+        error: AppColorsLight.error,
+        onError: AppColorsLight.onError,
+        errorContainer: AppColorsLight.errorContainer,
+        onErrorContainer: AppColorsLight.onErrorContainer,
+        surface: AppColorsLight.surface,
+        onSurface: AppColorsLight.onSurface,
+        surfaceContainerHighest: AppColorsLight.surfaceContainerHighest,
+        onSurfaceVariant: AppColorsLight.onSurfaceVariant,
+        outline: AppColorsLight.outline,
+        outlineVariant: AppColorsLight.outlineVariant,
+        shadow: AppColorsLight.primary.withAlpha(25),
+        scrim: AppColorsLight.background.withAlpha(204),
+        inverseSurface: AppColorsLight.inverseSurface,
+        onInverseSurface: AppColorsLight.inverseOnSurface,
+        inversePrimary: AppColorsLight.inversePrimary,
+        surfaceTint: AppColorsLight.surfaceTint,
+      ),
+
+      // Scaffold Background
+      scaffoldBackgroundColor: AppColorsLight.background,
+
+      // Typography
+      textTheme: _textTheme,
+
+      // App Bar Theme
+      appBarTheme: _appBarTheme.copyWith(
+        backgroundColor: AppColorsLight.surface.withAlpha(102),
+        foregroundColor: AppColorsLight.onSurface,
+      ),
+
+      // Card Theme
+      cardTheme: _cardTheme.copyWith(
+        color: AppColorsLight.surfaceContainerLow,
+      ),
+
+      // Input Decoration Theme
+      inputDecorationTheme: _inputDecorationTheme.copyWith(
+        fillColor: AppColorsLight.surfaceContainer,
+      ),
+
+      // Button Themes
+      elevatedButtonTheme: _elevatedButtonTheme,
+      textButtonTheme: _textButtonTheme,
+      outlinedButtonTheme: _outlinedButtonTheme,
+
+      // Chip Theme
+      chipTheme: _chipTheme.copyWith(
+        backgroundColor: AppColorsLight.surfaceContainer,
+        selectedColor: AppColorsLight.primaryContainer,
+      ),
+
+      // Slider Theme
+      sliderTheme: _sliderTheme,
+
+      // Switch Theme
+      switchTheme: _switchTheme,
+
+      // Bottom Sheet Theme
+      bottomSheetTheme: _bottomSheetTheme.copyWith(
+        backgroundColor: AppColorsLight.surfaceContainerLow,
+      ),
+
+      // Dialog Theme
+      dialogTheme: _dialogTheme.copyWith(
+        backgroundColor: AppColorsLight.surfaceContainerHigh,
+      ),
+
+      // Divider Theme
+      dividerTheme: _dividerTheme,
+
+      // Icon Theme
+      iconTheme: _iconTheme.copyWith(
+        color: AppColorsLight.onSurface,
+      ),
+
+      // Tooltip Theme
+      tooltipTheme: _tooltipTheme.copyWith(
+        decoration: BoxDecoration(
+          color: AppColorsLight.inverseSurface,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        textStyle: AppTypography.labelMedium.copyWith(
+          color: AppColorsLight.inverseOnSurface,
+        ),
+      ),
+
+      // Snack Bar Theme
+      snackBarTheme: _snackBarTheme.copyWith(
+        backgroundColor: AppColorsLight.inverseSurface,
+        contentTextStyle: AppTypography.bodyMedium.copyWith(
+          color: AppColorsLight.inverseOnSurface,
+        ),
+      ),
+
+      // Floating Action Button Theme
+      floatingActionButtonTheme: _floatingActionButtonTheme.copyWith(
+        backgroundColor: AppColorsLight.primaryContainer,
+        foregroundColor: AppColorsLight.onPrimaryContainer,
+      ),
     );
   }
 
