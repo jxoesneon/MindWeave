@@ -1,9 +1,9 @@
-# Binaural Beats - Open Source Brainwave Entrainment
+# MindWeave - Open Source Brainwave Entrainment
 
 ## Enterprise Project Documentation
 
 **Version:** 1.0  
-**Date:** March 28, 2026  
+**Date:** March 31, 2026  
 **License:** MIT (Documentation)  
 
 ---
@@ -53,9 +53,9 @@ binaural-beats-app-docs/
 
 ---
 
-## 🎯 Key Features (Planned)
+## 🎯 Key Features
 
-### Core Audio
+### Implemented ✅
 - Real-time binaural beat synthesis using pure sine waves
 - Five scientifically-validated brainwave bands:
   - **Delta** (0.5-4 Hz): Deep sleep, healing
@@ -64,8 +64,18 @@ binaural-beats-app-docs/
   - **Beta** (12-30 Hz): Focus, concentration
   - **Gamma** (30-100 Hz): Higher cognition
 - Customizable carrier frequencies (100-500 Hz)
-- Background music mixing
+- Background music mixing with local library
 - Gapless looping with fade in/out
+- Isochronic tone generation (alternative to binaural)
+- FFT audio visualization
+- Session history tracking
+- Favorites and custom presets
+- Cross-platform desktop layouts (mobile + desktop)
+
+### In Progress 🚧
+- HealthKit / Google Fit integration
+- Advanced analytics dashboard
+- Community preset sharing
 
 ### User Experience
 - Clean, minimal interface
@@ -174,37 +184,37 @@ All frequency presets are based on peer-reviewed research:
 
 ---
 
-## 🚀 Development Roadmap
+## 🚀 Development Status
 
-### Phase 1: Foundation (Months 1-3)
-- [ ] Core audio engine with flutter_soloud
-- [ ] Five brainwave presets
-- [ ] Basic UI with frequency controls
-- [ ] Background playback
-- [ ] Supabase backend setup
-- [ ] Cross-platform builds
+**Current Phase:** Phase 2 - Enhancement (Months 4-6)  
+**Latest Release:** March 31, 2026
 
-### Phase 2: Enhancement (Months 4-6)
-- [ ] Save/load custom presets
-- [ ] Session timer and history
-- [ ] Donation integration
-- [ ] Music mixing
-- [ ] Settings and preferences
-- [ ] Community preset sharing
+### Completed ✅
+- [x] Core audio engine with flutter_soloud
+- [x] Five brainwave presets (Delta, Theta, Alpha, Beta, Gamma)
+- [x] Basic UI with frequency controls
+- [x] Background playback with notifications
+- [x] Supabase backend setup
+- [x] Cross-platform builds (iOS, Android, Windows)
+- [x] Desktop layouts (1024px+ responsive)
+- [x] Isochronic tones (alternative to binaural)
+- [x] FFT audio visualization
+- [x] Music library mixing
+- [x] Session history tracking
+- [x] Favorites system
+- [x] Accessibility features (high contrast, reduced motion)
 
-### Phase 3: Advanced (Months 7-9)
-- [ ] Isochronic tones
-- [ ] Audio visualization
-- [ ] Health app integration
-- [ ] Smart recommendations
-- [ ] Accessibility improvements
-
-### Phase 4: Scale (Months 10-12)
-- [ ] Desktop platforms
+### In Progress 🚧
+- [ ] Donation backend integration
 - [ ] Advanced analytics
+
+### Completed ✅ (Recently Added)
+- [x] HealthKit / Google Fit integration (mindful minutes logging, permissions UI, sync status)
+
+### Planned 📋
+- [ ] White-label options
 - [ ] Professional/therapist features
 - [ ] API access
-- [ ] White-label options
 
 ---
 
@@ -315,7 +325,7 @@ The actual application code (when developed) will also be MIT licensed.
 
 ## 📧 Contact
 
-- **Project:** Binaural Beats Open Source
+- **Project:** MindWeave
 - **Repository:** (To be created)
 - **Discussions:** GitHub Discussions (when available)
 - **Donations:** GitHub Sponsors / Open Collective (when available)

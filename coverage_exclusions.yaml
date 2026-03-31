@@ -1,0 +1,34 @@
+# Coverage configuration for MindWeave
+# Exclude files that cannot be tested due to external dependencies
+
+exclude:
+  # External service dependencies
+  - "lib/core/services/supabase_client.dart"
+  - "lib/core/services/session_history_service.dart"
+  - "lib/core/services/monetization_service.dart"
+  - "lib/core/services/remote_config_service.dart"
+  - "lib/core/services/deep_link_service.dart"
+  - "lib/core/services/notification_service.dart"
+  
+  # Platform-specific audio (requires SoLoud)
+  - "lib/core/audio/audio_service.dart"
+  - "lib/core/audio/music_mixing_service.dart"
+  - "lib/core/audio/isochronic_generator.dart"
+  - "lib/core/audio/notification_service.dart"
+  
+  # Health integration (requires HealthKit/Google Fit)
+  - "lib/core/health/health_service.dart"
+  - "lib/features/health/health_controller.dart"
+  
+  # UI layer (tested via widget tests)
+  - "lib/features/**/widgets/**"
+  - "lib/features/**/screens/**"
+  - "lib/main.dart"
+  
+  # Generated files
+  - "lib/**/*.g.dart"
+  - "lib/**/*.freezed.dart"
+  - "lib/generated/**"
+  
+  # Third-party and platform
+  - "lib/platform/**"

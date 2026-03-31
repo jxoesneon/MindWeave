@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Date:** March 28, 2026  
-**Status:** Draft for Review  
+**Status:** In Progress  
 
 ---
 
@@ -35,14 +35,26 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 - **Ethical Monetization:** Donation-first with dormant ad system
 - **Cross-Platform:** iOS, Android from single Flutter codebase
 
+### Design Philosophy:
+
+The application follows a **dual-experience architecture** that serves both mobile-first and desktop-heavy use cases simultaneously:
+
+- **Mobile-First Foundation:** Core interface designed for smartphones with single-handed operation, touch-optimized controls, and simplified navigation. All essential features accessible within thumb reach.
+
+- **Desktop-Heavy Enhancement:** Full desktop layouts for larger screens (1024px+ breakpoint) with multi-column designs, expanded visualizations, and power-user features. Desktop layouts are not scaled-up mobile views but purpose-built interfaces that leverage additional screen real estate.
+
+- **Seamless Responsiveness:** Automatic switching between mobile and desktop layouts at 1024px viewport width. Users on tablets, foldables, or desktop browsers receive appropriate layouts without manual configuration.
+
+- **Unified Core Experience:** Audio engine, presets, and session data remain consistent across both layouts. User preferences and favorites sync between mobile and desktop views.
+
 ### Target Platforms
 
-| Platform | Minimum Version | Target Version |
-|----------|-----------------|----------------|
-| iOS | 13.0 | 17.0+ |
-| Android | API 21 (5.0) | API 34+ |
-| macOS (future) | 11.0 | 14.0+ |
-| Windows (future) | 10 | 11 |
+| Platform | Minimum Version | Target Version | Layout Priority |
+|----------|-----------------|----------------|-----------------|
+| iOS | 13.0 | 17.0+ | Mobile-first with iPad desktop |
+| Android | API 21 (5.0) | API 34+ | Mobile-first with tablet desktop |
+| macOS (future) | 11.0 | 14.0+ | Desktop-heavy |
+| Windows (future) | 10 | 11 | Desktop-heavy |
 
 ---
 
@@ -117,34 +129,34 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 **US-1.1:** As a user, I want to play a binaural beat preset so that I can begin my session quickly.
 
 **Acceptance Criteria:**
-- [ ] Five preset categories visible on main screen
-- [ ] Tap to play with < 2 second startup
-- [ ] Audio plays in background
+- [x] Five preset categories visible on main screen
+- [x] Tap to play with < 2 second startup
+- [x] Audio plays in background
 - [ ] Notification shows current frequency
 
 **US-1.2:** As a user, I want to customize the carrier frequency so that I can fine-tune my experience.
 
 **Acceptance Criteria:**
-- [ ] Carrier frequency slider (100-500 Hz)
-- [ ] Real-time preview of changes
+- [x] Carrier frequency slider (100-500 Hz)
+- [x] Real-time preview of changes
 - [ ] Save custom setting to preset
-- [ ] Visual indicator of recommended range (180-250 Hz)
+- [x] Visual indicator of recommended range (180-250 Hz)
 
 **US-1.3:** As a user, I want to set a session timer so that my session ends automatically.
 
 **Acceptance Criteria:**
-- [ ] Timer presets: 5, 10, 15, 20, 30, 45, 60 minutes
+- [x] Timer presets: 5, 10, 15, 20, 30, 45, 60 minutes
 - [ ] Custom timer input
-- [ ] Visual countdown during session
+- [x] Visual countdown during session
 - [ ] Gentle fade-out at end
 - [ ] Optional alarm sound
 
 **US-1.4:** As a user, I want to mix binaural beats with my own music so that I can enjoy both simultaneously.
 
 **Acceptance Criteria:**
-- [ ] Access music library (iOS/Android)
-- [ ] Independent volume controls
-- [ ] Binaural volume: 20-40% recommended range
+- [x] Access music library (iOS/Android)
+- [x] Independent volume controls
+- [x] Binaural volume: 20-40% recommended range
 - [ ] Remember last music selection
 
 ### Epic 2: Session Management
@@ -152,17 +164,17 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 **US-2.1:** As a user, I want to save my favorite frequency combinations so that I can quickly return to them.
 
 **Acceptance Criteria:**
+- [x] View saved presets in grid/list
+- [x] Quick-play from saved list
 - [ ] Save current settings as named preset
-- [ ] View saved presets in grid/list
 - [ ] Edit/delete saved presets
-- [ ] Quick-play from saved list
 
 **US-2.2:** As a user, I want to see my session history so that I can track my usage patterns.
 
 **Acceptance Criteria:**
-- [ ] List of past sessions with date/time
-- [ ] Session duration displayed
-- [ ] Frequency used shown
+- [x] List of past sessions with date/time
+- [x] Session duration displayed
+- [x] Frequency used shown
 - [ ] Option to repeat session
 
 **US-2.3:** As a user, I want to share my custom presets with others so that I can help the community.
@@ -233,10 +245,10 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 | AU-004 | Beat frequency precision: ±0.01 Hz | P0 | Scientific accuracy |
 | AU-005 | Sample rate: 44.1 kHz minimum | P0 | Audio quality |
 | AU-006 | Background audio playback | P0 | Essential UX |
-| AU-007 | Gapless looping | P1 | Seamless experience |
-| AU-008 | Volume fade in/out | P1 | Smooth transitions |
-| AU-009 | Isochronic tone option | P2 | Alternative modality |
-| AU-010 | Audio visualization (FFT) | P2 | Visual feedback |
+| AU-007 | Gapless looping | P1 | ✅ IMPLEMENTED |
+| AU-008 | Volume fade in/out | P1 | ✅ IMPLEMENTED |
+| AU-009 | Isochronic tone option | P2 | ✅ IMPLEMENTED |
+| AU-010 | Audio visualization (FFT) | P2 | ✅ IMPLEMENTED |
 
 ### 4.2 Session Requirements
 
@@ -258,8 +270,8 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 | PI-003 | Control Center integration (iOS) | P1 | Native feel |
 | PI-004 | Media session integration (Android) | P1 | Native feel |
 | PI-005 | Do Not Disturb awareness | P1 | Respect user settings |
-| PI-006 | Apple HealthKit Mindful Minutes | P2 | Health integration |
-| PI-007 | Google Fit integration | P2 | Health integration |
+| PI-006 | Apple HealthKit Mindful Minutes | P2 | ✅ IMPLEMENTED |
+| PI-007 | Google Fit integration | P2 | ✅ IMPLEMENTED |
 
 ---
 
@@ -319,7 +331,15 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 
 ### 6.2 Screen Requirements
 
-#### Main Player Screen
+#### Responsive Breakpoints
+
+| Breakpoint | Width | Layout |
+|------------|-------|--------|
+| Mobile | < 600px | Single column, full-width |
+| Tablet | 600px - 1023px | Adapted mobile with more spacing |
+| Desktop | ≥ 1024px | Multi-column, expanded features |
+
+#### Main Player Screen - Mobile Layout
 
 ```
 ┌─────────────────────────────────────┐
@@ -349,7 +369,43 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 └─────────────────────────────────────┘
 ```
 
-#### Presets Screen
+#### Main Player Screen - Desktop Layout (Sanctuary)
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  Library    Sanctuary    Frequencies    Journals              [Stats]  [Settings] │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│  ┌────────────────────┐  ┌───────────────────────────────┐  ┌──────────────────┐ │
+│  │  Quick Presets     │  │                             │  │  Audio Mixer     │ │
+│  │  ┌────────────┐    │  │    ┌──────────────────┐     │  │                  │ │
+│  │  │ 🌙 Sleep   │    │  │    │                  │     │  │  Binaural Vol    │ │
+│  │  │ 🧘 Meditate│    │  │    │   VISUALIZER     │     │  │  [====●====]     │ │
+│  │  │ 💻 Focus   │    │  │    │   (Animated      │     │  │                  │ │
+│  │  │ 🧠 Create  │    │  │    │    Circle)       │     │  │  Music Vol       │ │
+│  │  │ ⚡ Energy  │    │  │    │                  │     │  │  [====●====]     │ │
+│  │  └────────────┘    │  │    └──────────────────┘     │  │                  │ │
+│  │                    │  │                             │  │  [🔊] Mute       │ │
+│  │  Favorites         │  │  Now Playing: Alpha         │  │                  │ │
+│  │  ────────────      │  │  Beat: 10.0 Hz              │  │  Active Session  │ │
+│  │  ⭐ Deep Sleep     │  │  Carrier: 250 Hz            │  │  ┌──────────────┐│ │
+│  │  ⭐ Meditation     │  │                             │  │  │ 15:00 left  ││ │
+│  │  ⭐ Focus          │  │  Carrier: [========●====]   │  │  │ Timer active││ │
+│  │  + Add Custom      │  │  Volume:  [======●======]   │  │  └──────────────┘│ │
+│  └────────────────────┘  │                             │  └──────────────────┘ │
+│                          │        [  ⏸ PAUSE  ]        │                      │
+│                          │                             │                      │
+│                          │  [Timer] [Music] [Save] [Share]│                      │
+│                          └───────────────────────────────┘                      │
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Desktop Sanctuary Layout Features:**
+- **Left Sidebar:** Quick preset selection, favorites list, add custom preset CTA
+- **Center Panel:** Expanded visualizer, full playback controls, frequency display
+- **Right Sidebar:** Independent binaural and music volume controls, session timer
+- **Top Navigation:** Horizontal nav bar with Library, Sanctuary (active), Frequencies, Journals
+
+#### Presets Screen - Mobile Layout
 
 ```
 ┌─────────────────────────────────────┐
@@ -370,7 +426,47 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 └─────────────────────────────────────┘
 ```
 
-#### Settings / Donation Screen
+#### Presets Screen - Desktop Layout (Library)
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  Library (active)  Sanctuary  Frequencies  Journals        [Stats]  [Settings] │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│  My Library                                    ┌─────────────────────────────┐ │
+│  ──────────                                    │  Community Presets          │ │
+│                                                 │  ────────────────           │ │
+│  Filter: [All] [Sleep] [Focus] [Meditation] [Custom]                         │ │
+│                                                 │  Trending This Week         │ │
+│  ┌──────────────────┐ ┌──────────────────┐    │  ────────────────           │ │
+│  │ 🌙 Deep Sleep    │ │ 💻 Focus Mode     │    │  ⚡ Peak Performance  156 │ │
+│  │ 2.5 Hz | 150 Hz  │ │ 15.0 Hz | 250 Hz  │    │  🌙 Lucid Dreaming   98  │ │
+│  │ Used 12 times    │ │ Used 24 times     │    │  🧘 Zen Breath       87  │ │
+│  │ [▶️] [⭐] [⋯]    │ │ [▶️] [⭐] [⋯]    │    │                             │ │
+│  └──────────────────┘ └──────────────────┘    └─────────────────────────────┘ │
+│  ┌──────────────────┐ ┌──────────────────┐                                      │
+│  │ 🧘 Meditation    │ │ 🧠 Creativity     │    + Create Custom Preset       │ │
+│  │ 6.0 Hz | 200 Hz  │ │ 12.0 Hz | 220 Hz  │    ─────────────────────────    │ │
+│  │ Used 8 times     │ │ Used 3 times      │    Build your perfect frequency │ │
+│  │ [▶️] [⭐] [⋯]    │ │ [▶️] [⭐] [⋯]    │                                 │ │
+│  └──────────────────┘ └──────────────────┘                                      │
+│                                                                                  │
+│  ┌─────────────────────────────────────────────────────────────┐                  │
+│  │  ➕  Create New Preset - Customize frequencies, save, share  │                  │
+│  └─────────────────────────────────────────────────────────────┘                  │
+│                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Desktop Library Features:**
+- **Filter Chips:** Quick filtering by category (All, Sleep, Focus, Meditation, Custom)
+- **Grid Layout:** 2-column card grid for better space utilization
+- **Quick Actions:** Play, Favorite, More options on each card
+- **Usage Stats:** "Used X times" for each preset
+- **Community Panel:** Trending presets from community (right sidebar)
+- **Create CTA:** Prominent button to add custom presets
+
+#### Settings / Donation Screen - Mobile Layout
 
 ```
 ┌─────────────────────────────────────┐
@@ -421,12 +517,12 @@ Binaural Beats is an open-source, cross-platform mobile application that generat
 - Accent Gamma: #E74C3C
 
 **Light Mode:**
-- Background: #F5F5F7
-- Surface: #FFFFFF
-- Primary: #5A4FCF
-- Secondary: #00B8A3
-- Text Primary: #1A1A1F
-- Text Secondary: #6E6E73
+- Background: #F5F5F7 ✅ IMPLEMENTED
+- Surface: #FFFFFF ✅ IMPLEMENTED
+- Primary: #5A4FCF ✅ IMPLEMENTED
+- Secondary: #00B8A3 ✅ IMPLEMENTED
+- Text Primary: #1A1A1F ✅ IMPLEMENTED
+- Text Secondary: #6E6E73 ✅ IMPLEMENTED
 
 ---
 

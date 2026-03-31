@@ -109,13 +109,13 @@ sequenceDiagram
 
 | Component        | Technology     | Version | Justification                   |
 | ---------------- | -------------- | ------- | ------------------------------- |
-| Framework        | Flutter        | 3.19+   | Cross-platform, single codebase |
-| Language         | Dart           | 3.3+    | Native Flutter performance      |
+| Framework        | Flutter        | 3.41+   | Cross-platform, single codebase |
+| Language         | Dart           | 3.11+   | Native Flutter performance      |
 | State Management | Riverpod       | 2.5+    | Type-safe, testable             |
-| Audio            | flutter_soloud | 2.0+    | Low-latency, FFI-based          |
+| Audio            | flutter_soloud | 3.5+    | Low-latency, FFI-based          |
 | Local Storage    | Hive           | 2.2+    | Fast, lightweight NoSQL         |
-| HTTP Client      | dio            | 5.4+    | Powerful, interceptors          |
-| Analytics        | PostHog        | 4.0+    | Privacy-focused, self-hostable  |
+| HTTP Client      | Supabase       | 2.12+   | Direct client (no Dio needed)   |
+| Analytics        | (Not used)     | -       | Privacy-focused by default      |
 
 ### 2.2 Backend
 
@@ -895,18 +895,15 @@ dependencies:
   riverpod_annotation: ^2.3.0
   
   # Audio
-  flutter_soloud: ^2.0.0
+  flutter_soloud: ^3.5.4
   audio_session: ^0.1.18
   
   # Backend
-  supabase_flutter: ^2.3.0
+  supabase_flutter: ^2.12.0
   
   # Storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  
-  # HTTP
-  dio: ^5.4.0
   
   # UI
   flutter_animate: ^4.5.0
@@ -916,6 +913,16 @@ dependencies:
   freezed_annotation: ^2.4.0
   json_annotation: ^4.8.0
   intl: ^0.19.0
+  
+  # Additional features
+  on_audio_query: ^2.10.0
+  flutter_local_notifications: ^21.0.0
+  health: ^13.3.1
+  posthog_flutter: ^5.23.0
+  flutter_dotenv: ^6.0.0
+  uuid: ^4.5.3
+  device_info_plus: ^12.4.0
+  share_plus: ^12.0.2
   
 dev_dependencies:
   flutter_test:
