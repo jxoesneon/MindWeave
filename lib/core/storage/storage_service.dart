@@ -8,10 +8,19 @@ StorageService storageService(Ref ref) => StorageService();
 
 class StorageService {
   final HiveInterface _hive;
-  
+
   StorageService({HiveInterface? hive}) : _hive = hive ?? Hive;
 
   Future<Box<T>> openBox<T>(String name) async {
+    // If box is already open with wrong type, close it first
+    if (_hive.isBoxOpen(name)) {
+      try {
+        return _hive.box<T>(name);
+      } catch (e) {
+        // Type mismatch - close and reopen
+        await _hive.box(name).close();
+      }
+    }
     return await _hive.openBox<T>(name);
   }
 
