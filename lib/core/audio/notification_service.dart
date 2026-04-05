@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:audio_service/audio_service.dart';
+
+part 'notification_service.g.dart';
 
 /// Service for managing background playback notifications and media controls.
 ///
@@ -52,6 +55,7 @@ class AudioNotificationService {
       const initSettings = InitializationSettings(
         android: androidSettings,
         iOS: iosSettings,
+        macOS: iosSettings,
         windows: windowsSettings,
       );
 
@@ -140,6 +144,7 @@ class AudioNotificationService {
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
+      macOS: iosDetails,
     );
 
     await _notifications.show(

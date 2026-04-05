@@ -96,7 +96,7 @@ extension UserPresetPatterns on UserPreset {
 ///   case _:
 ///     return orElse();
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UserPreset value)?  $default,{required TResult orElse(),}){
 final _that = this;
@@ -118,7 +118,7 @@ return $default(_that);case _:
 ///   case final Subclass2 value:
 ///     return ...;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UserPreset value)  $default,){
 final _that = this;
@@ -139,7 +139,7 @@ return $default(_that);case _:
 ///   case _:
 ///     return null;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UserPreset value)?  $default,){
 final _that = this;
@@ -160,7 +160,7 @@ return $default(_that);case _:
 ///   case _:
 ///     return orElse();
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String userId,  String name,  double carrierFrequency,  double beatFrequency,  NoiseType noiseType,  double noiseVolume,  double binauralVolume,  bool isPublic,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
@@ -181,7 +181,7 @@ return $default(_that.id,_that.userId,_that.name,_that.carrierFrequency,_that.be
 ///   case Subclass2(:final field2):
 ///     return ...;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String userId,  String name,  double carrierFrequency,  double beatFrequency,  NoiseType noiseType,  double noiseVolume,  double binauralVolume,  bool isPublic,  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
@@ -201,7 +201,7 @@ return $default(_that.id,_that.userId,_that.name,_that.carrierFrequency,_that.be
 ///   case _:
 ///     return null;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String userId,  String name,  double carrierFrequency,  double beatFrequency,  NoiseType noiseType,  double noiseVolume,  double binauralVolume,  bool isPublic,  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {

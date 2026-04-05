@@ -28,5 +28,35 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+
+	<!-- Google Sign-In Configuration - REPLACE with actual Client ID from Google Cloud Console -->
+	<key>GIDClientID</key>
+	<string>900217975842-ef0cr4mmaf4omtrr1jo6f49mu12re1tt.apps.googleusercontent.com</string>
+
+	<!-- Audio permissions for macOS -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>MindWeave may use the microphone for audio recording features in the future.</string>
+
+	<!-- URL Scheme for deep link handling -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.mindweave.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mindweave</string>
+			</array>
+		</dict>
+		<!-- Google Sign-In URL Scheme - Must match GIDClientID format: com.googleusercontent.apps.CLIENT_ID -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.900217975842-ef0cr4mmaf4omtrr1jo6f49mu12re1tt</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

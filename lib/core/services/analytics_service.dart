@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 import '../config/env_config.dart';
 import '../storage/storage_service.dart';
+
+part 'analytics_service.g.dart';
 
 /// Privacy-respecting analytics service using PostHog.
 ///

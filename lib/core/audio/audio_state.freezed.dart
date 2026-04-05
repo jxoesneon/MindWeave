@@ -102,7 +102,7 @@ extension AudioStatePatterns on AudioState {
 ///   case _:
 ///     return orElse();
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AudioState value)?  $default,{required TResult orElse(),}){
 final _that = this;
@@ -124,7 +124,7 @@ return $default(_that);case _:
 ///   case final Subclass2 value:
 ///     return ...;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AudioState value)  $default,){
 final _that = this;
@@ -145,7 +145,7 @@ return $default(_that);case _:
 ///   case _:
 ///     return null;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AudioState value)?  $default,){
 final _that = this;
@@ -166,7 +166,7 @@ return $default(_that);case _:
 ///   case _:
 ///     return orElse();
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isPlaying,  double carrierFrequency,  double beatFrequency,  double volume,  BrainwavePreset? selectedPreset,  Duration? timerDuration,  Duration? remainingTime)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
@@ -187,7 +187,7 @@ return $default(_that.isPlaying,_that.carrierFrequency,_that.beatFrequency,_that
 ///   case Subclass2(:final field2):
 ///     return ...;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isPlaying,  double carrierFrequency,  double beatFrequency,  double volume,  BrainwavePreset? selectedPreset,  Duration? timerDuration,  Duration? remainingTime)  $default,) {final _that = this;
 switch (_that) {
@@ -207,7 +207,7 @@ return $default(_that.isPlaying,_that.carrierFrequency,_that.beatFrequency,_that
 ///   case _:
 ///     return null;
 /// }
-/// ```
+/// ```text
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isPlaying,  double carrierFrequency,  double beatFrequency,  double volume,  BrainwavePreset? selectedPreset,  Duration? timerDuration,  Duration? remainingTime)?  $default,) {final _that = this;
 switch (_that) {

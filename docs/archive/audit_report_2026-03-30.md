@@ -10,7 +10,7 @@
 ## Executive Summary
 
 | Category | Alignment Score | Status |
-|----------|----------------|--------|
+| -------- | --------------- | ------ |
 | **Core Audio** | 85% | Mostly aligned |
 | **UI/UX** | 110% | Exceeds documentation |
 | **Backend/Database** | 60% | Partially aligned |
@@ -34,7 +34,7 @@
 ## Executive Summary
 
 | Category | Status | Details |
-|----------|--------|---------|
+| -------- | ------ | ------- |
 | **Code Quality** | ✅ PASS | `flutter analyze` - 0 issues |
 | **Android Build** | ✅ PASS | APK builds successfully (75.1s) |
 | **Windows Build** | ⚠️ PARTIAL | LNK1168 error (app running, not a code issue) |
@@ -47,11 +47,11 @@
 ## 1. Code Quality Audit
 
 ### Static Analysis Results
-```
+```text
 $ flutter analyze
 Analyzing MindWeave...
 No issues found! (ran in 167.3s)
-```
+```text
 
 **Actual Implementation:** ✅ Matches documented architecture
 
@@ -262,7 +262,7 @@ No issues found! (ran in 167.3s)
 ### Directory Structure
 
 **Documented (Tech Specs Appendix A):**
-```
+```text
 lib/
 ├── main.dart
 ├── app.dart
@@ -277,10 +277,10 @@ lib/
 │   │   ├── widgets/
 │   │   └── providers/
 │   └── utils/
-```
+```text
 
 **Actual Implementation:**
-```
+```text
 lib/
 ├── main.dart
 ├── core/                # Similar to src/
@@ -295,7 +295,7 @@ lib/
     ├── favorites/       # Library/favorites
     ├── health/          # Health integration ✅ IMPLEMENTED
     └── streaks/         # Streak tracking
-```
+```text
 
 **Assessment:** Uses feature-based architecture instead of layer-based. Modern approach, well organized.
 

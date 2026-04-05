@@ -43,10 +43,7 @@ class EnvConfig {
     }
 
     // Fall back to .env file (development)
-    return dotenv.get(
-      'SUPABASE_URL',
-      fallback: 'https://localhost.supabase.co',
-    );
+    return dotenv.get('SUPABASE_URL', fallback: '');
   }
 
   /// Get Supabase Anon Key
@@ -77,6 +74,47 @@ class EnvConfig {
     const compileTimeValue = String.fromEnvironment('POSTHOG_HOST');
     if (compileTimeValue.isNotEmpty) return compileTimeValue;
     return dotenv.get('POSTHOG_HOST', fallback: 'https://us.i.posthog.com');
+  }
+
+  /// Get hCaptcha Site Key
+  String get hcaptchaSiteKey {
+    const compileTimeValue = String.fromEnvironment('HCAPTCHA_SITE_KEY');
+    if (compileTimeValue.isNotEmpty) return compileTimeValue;
+    return dotenv.get('HCAPTCHA_SITE_KEY', fallback: '');
+  }
+
+  /// Get Google Web Client ID
+  String get googleWebClientId {
+    const compileTimeValue = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
+    if (compileTimeValue.isNotEmpty) return compileTimeValue;
+    return dotenv.get('GOOGLE_WEB_CLIENT_ID', fallback: '');
+  }
+
+  /// Get Google iOS/macOS Client ID
+  String get googleIosClientId {
+    const compileTimeValue = String.fromEnvironment('GOOGLE_IOS_CLIENT_ID');
+    if (compileTimeValue.isNotEmpty) return compileTimeValue;
+    return dotenv.get('GOOGLE_IOS_CLIENT_ID', fallback: '');
+  }
+
+  /// Check if hCaptcha is enabled
+  bool get isCaptchaEnabled {
+    const compileTimeValue = String.fromEnvironment('ENABLE_CAPTCHA');
+    if (compileTimeValue.isNotEmpty) {
+      return compileTimeValue.toLowerCase() == 'true';
+    }
+    final value = dotenv.get('ENABLE_CAPTCHA', fallback: 'true');
+    return value.toLowerCase() == 'true';
+  }
+
+  /// Check if Google Sign-In is enabled
+  bool get isGoogleSignInEnabled {
+    const compileTimeValue = String.fromEnvironment('ENABLE_GOOGLE_SIGNIN');
+    if (compileTimeValue.isNotEmpty) {
+      return compileTimeValue.toLowerCase() == 'true';
+    }
+    final value = dotenv.get('ENABLE_GOOGLE_SIGNIN', fallback: 'true');
+    return value.toLowerCase() == 'true';
   }
 
   /// Check if running in production mode (compile-time vars present)

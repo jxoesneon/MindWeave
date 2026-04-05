@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "inject-macos-env",
+            "type": "shell",
+            "command": "${workspaceFolder}/macos/Runner/inject_env.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "windows": {
+                "command": "bash ${workspaceFolder}/macos/Runner/inject_env.sh"
+            }
+        }
+    ]
+}

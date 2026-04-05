@@ -65,7 +65,7 @@ graph TB
     B -.-> J
     A --> K
     B --> K
-```
+```text
 
 ### Component Interaction Flow
 
@@ -99,7 +99,7 @@ sequenceDiagram
     opt If donation prompt enabled
         App->>User: Show donation dialog
     end
-```
+```text
 
 ---
 
@@ -120,7 +120,7 @@ sequenceDiagram
 ### 2.2 Backend
 
 | Component | Technology | Version | Justification |
-|-----------|------------|---------|---------------|
+| --------- | ---------- | ------- | --------------- |
 | Platform | Supabase | 1.0+ | Open source, generous free tier |
 | Database | PostgreSQL | 15+ | Relational, proven |
 | Auth | GoTrue | - | Built into Supabase |
@@ -130,7 +130,7 @@ sequenceDiagram
 ### 2.3 Admin Dashboard
 
 | Component | Technology | Version | Justification |
-|-----------|------------|---------|---------------|
+| --------- | ---------- | ------- | --------------- |
 | Framework | React | 18+ | Mature ecosystem |
 | Styling | Tailwind CSS | 3.4+ | Rapid development |
 | Charts | Recharts | 2.10+ | React-native |
@@ -180,7 +180,7 @@ flowchart LR
     C --> E
     F --> E
     E --> G
-```
+```text
 
 ### 3.2 Audio Engine Implementation
 
@@ -212,7 +212,7 @@ graph TB
     E --> F
     F --> G
     G --> H
-```
+```text
 
 ### 3.3 Frequency Calculation Logic
 
@@ -258,7 +258,7 @@ class BinauralFrequencyCalculator {
     return left > 0 && right > 0;
   }
 }
-```
+```text
 
 ### 3.4 Audio Preset Configuration
 
@@ -304,7 +304,7 @@ enum BrainwaveBand {
 
   const BrainwaveBand(this.minFreq, this.maxFreq, this.description);
 }
-```
+```text
 
 ---
 
@@ -381,7 +381,7 @@ erDiagram
     USERS ||--o{ SESSIONS : "has many"
     USERS ||--o{ DONATIONS : "makes"
     PRESETS ||--o{ SESSIONS : "used in"
-```
+```text
 
 ### 4.2 Row Level Security (RLS) Policies
 
@@ -411,12 +411,12 @@ CREATE POLICY "Config is public read" ON remote_config
 
 CREATE POLICY "Only admins modify config" ON remote_config
     FOR ALL USING (is_admin(auth.uid()));
-```
+```text
 
 ### 4.3 Edge Functions
 
 | Function | Method | Path | Description |
-|----------|--------|------|-------------|
+| ---------- | ------ | ------ | ------------- |
 | `track-session` | POST | `/functions/v1/track-session` | Log session start/end |
 | `get-analytics` | GET | `/functions/v1/analytics` | Admin analytics data |
 | `update-config` | POST | `/functions/v1/update-config` | Update remote config |
@@ -474,7 +474,7 @@ serve(async (req) => {
     })
   }
 })
-```
+```text
 
 ---
 
@@ -519,7 +519,7 @@ graph TB
     K --> E
     K --> F
     L --> K
-```
+```text
 
 ### 5.2 State Providers
 
@@ -590,7 +590,7 @@ class RemoteConfigController extends _$RemoteConfigController {
   int get adsUserPercentage => state.value?.adsUserPercentage ?? 0;
   bool get donationPromptEnabled => state.value?.donationPromptEnabled ?? true;
 }
-```
+```text
 
 ---
 
@@ -663,7 +663,7 @@ class UserSettings with _$UserSettings {
   factory UserSettings.fromJson(Map<String, dynamic> json) =>
       _$UserSettingsFromJson(json);
 }
-```
+```text
 
 ---
 
@@ -672,7 +672,7 @@ class UserSettings with _$UserSettings {
 ### 7.1 REST API Endpoints
 
 | Endpoint | Method | Auth | Description |
-|----------|--------|------|-------------|
+| ---------- | ------ | ------ | ------------- |
 | `/rest/v1/sessions` | GET | User | List user's sessions |
 | `/rest/v1/sessions` | POST | User | Create new session |
 | `/rest/v1/sessions/:id` | PATCH | User | Update session |
@@ -700,7 +700,7 @@ supabase
     .listen((List<Map<String, dynamic>> data) {
       // Update preset list
     });
-```
+```text
 
 ---
 
@@ -719,12 +719,12 @@ sequenceDiagram
     App->>DB: Request with JWT
     DB->>DB: Validate JWT + RLS
     DB-->>App: Data (if authorized)
-```
+```text
 
 ### 8.2 Security Measures
 
 | Layer | Measure | Implementation |
-|-------|---------|----------------|
+| ------- | ------- | ---------------- |
 | Transport | TLS 1.3 | Supabase enforced |
 | Auth | JWT with expiry | Supabase Auth |
 | DB | Row Level Security | PostgreSQL RLS |
@@ -747,12 +747,12 @@ graph LR
     D --> F[Deploy Web Dashboard]
     
     G[Supabase Migrations] --> H[Apply to Prod]
-```
+```text
 
 ### 9.2 Environment Configuration
 
 | Environment | Supabase Project | Usage |
-|-------------|------------------|-------|
+| ------------- | ------------------ | ------- |
 | Development | `binaural-dev` | Local development |
 | Staging | `binaural-staging` | Testing, QA |
 | Production | `binaural-prod` | Live app |
@@ -800,7 +800,7 @@ jobs:
       - uses: subosito/flutter-action@v2
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
-```
+```text
 
 ---
 
@@ -809,7 +809,7 @@ jobs:
 ### 10.1 Audio Performance Targets
 
 | Metric | Target | Measurement |
-|--------|--------|-------------|
+| ------- | ------ | ------------- |
 | Audio Latency | < 20ms | From play() to audible |
 | CPU Usage | < 5% | During playback |
 | Battery Impact | < 3%/hour | Screen off, playing |
@@ -842,7 +842,7 @@ jobs:
 
 ## Appendix A: Directory Structure
 
-```
+```text
 binaural_beats_app/
 ├── android/                    # Android-specific config
 ├── ios/                        # iOS-specific config
@@ -872,7 +872,7 @@ binaural_beats_app/
 │   └── seed.sql
 ├── dashboard/                  # Admin dashboard (React)
 └── docs/                       # Documentation
-```
+```text
 
 ---
 
@@ -933,14 +933,14 @@ dev_dependencies:
   json_serializable: ^6.7.0
   riverpod_generator: ^2.3.0
   mockito: ^5.4.0
-```
+```text
 
 ---
 
 **Document Approval:**
 
 | Role | Name | Date | Signature |
-|------|------|------|-----------|
+| ------ | ------ | ------ | ----------- |
 | Tech Lead | TBD | | |
 | Architect | TBD | | |
 | Security Review | TBD | | |

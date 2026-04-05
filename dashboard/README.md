@@ -39,7 +39,7 @@ npm test
 
 # Production build
 npm run build
-```
+```text
 
 ## 🔒 Security Features
 
@@ -72,11 +72,11 @@ npm run test:coverage
 
 # Run in watch mode
 npm run test:watch
-```
+```text
 
 ## 🏗️ Project Structure
 
-```
+```text
 src/
 ├── components/          # Reusable UI components with React.memo
 ├── hooks/              # Custom React hooks with comprehensive tests
@@ -84,7 +84,7 @@ src/
 ├── pages/              # Route components with code-splitting
 ├── test/               # Test setup and utilities
 └── types/              # TypeScript strict type definitions
-```
+```text
 
 ## 📊 Code Quality Score: 9.5/10
 

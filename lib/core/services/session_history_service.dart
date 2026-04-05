@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/brainwave_preset.dart';
 import '../models/session_record.dart';
+
+part 'session_history_service.g.dart';
 
 class SessionHistoryService {
   static final SessionHistoryService _instance =
@@ -548,6 +552,13 @@ class SessionHistoryService {
   void dispose() {
     _sessionsController.close();
   }
+}
+
+@riverpod
+SessionHistoryService sessionHistoryService(Ref ref) {
+  final service = SessionHistoryService();
+  ref.onDispose(() => service.dispose());
+  return service;
 }
 
 class SessionStats {

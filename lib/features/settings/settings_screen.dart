@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/services/analytics_service.dart';
 import '../../features/health/health_controller.dart';
+import '../../features/navigation/app_routes.dart';
 import 'theme_controller.dart';
 
 final analyticsEnabledProvider = FutureProvider<bool>((ref) async {
@@ -336,7 +337,10 @@ class SettingsScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.paymentMethods,
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
@@ -363,7 +367,10 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 12),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.paymentMethods,
+                      ),
                       child: const Text(
                         'Other Payment Options',
                         style: TextStyle(
@@ -386,13 +393,19 @@ class SettingsScreen extends ConsumerWidget {
                     _LinkButton(
                       icon: Icons.open_in_new,
                       label: 'View Our Open Collective',
-                      onTap: () {},
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.transparencyHub,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     _LinkButton(
                       icon: Icons.info,
                       label: 'See How Funds Are Used',
-                      onTap: () {},
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.financialLedger,
+                      ),
                     ),
                   ],
                 ),
@@ -701,12 +714,13 @@ class SettingsScreen extends ConsumerWidget {
               Icons.notifications_outlined,
               color: AppColors.onSurfaceVariant,
             ),
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutes.notifications),
           ),
           const SizedBox(width: 8),
           IconButton(
             icon: const Icon(Icons.settings, color: AppColors.primary),
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.supportUs),
           ),
           const SizedBox(width: 16),
           Container(
@@ -1152,10 +1166,28 @@ class _TextLink extends StatelessWidget {
 
   const _TextLink(this.text);
 
+  String? _routeForText() {
+    switch (text) {
+      case 'Privacy Policy':
+        return AppRoutes.privacyPolicy;
+      case 'Terms':
+        return AppRoutes.termsOfService;
+      case 'Licenses':
+        return AppRoutes.openSource;
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        final route = _routeForText();
+        if (route != null) {
+          Navigator.pushNamed(context, route);
+        }
+      },
       child: Text(
         text,
         style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 12),

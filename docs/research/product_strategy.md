@@ -11,21 +11,25 @@
 ## Core Value Propositions
 
 ### 1. Scientific Integrity
+
 - All frequency presets based on peer-reviewed research
 - Transparent documentation of scientific sources
 - No pseudoscientific claims or exaggerated benefits
 
 ### 2. True Open Source
+
 - Full source code available under MIT license
 - Community contributions welcomed and credited
 - No proprietary "black box" algorithms
 
 ### 3. Ethical Monetization
+
 - Core functionality always free
 - Donation-first sustainability model
 - Ads strictly optional and off-by-default
 
 ### 4. Cross-Platform Unity
+
 - Single codebase, all major platforms
 - Consistent experience across devices
 - No platform lock-in
@@ -36,27 +40,31 @@
 
 ### Phase 1: Foundation (MVP) - Months 1-3
 
-**Core Audio Engine**
+#### Core Audio Engine
+
 - [ ] Real-time binaural beat synthesis
 - [ ] Five brainwave band presets (Delta, Theta, Alpha, Beta, Gamma)
 - [ ] Carrier frequency selection (100-500 Hz)
 - [ ] Pure sine wave generation
 - [ ] Gapless looping
 
-**Basic UI/UX**
+#### Basic UI/UX
+
 - [ ] Clean, minimal interface
 - [ ] Frequency selector with visual band indicators
 - [ ] Play/pause/stop controls
 - [ ] Session timer (5, 10, 15, 20, 30, 45, 60 min)
 - [ ] Dark/light theme
 
-**Platform Basics**
+#### Platform Basics
+
 - [ ] iOS support (iOS 13+)
 - [ ] Android support (API 21+)
 - [ ] Background audio playback
 - [ ] Notification controls
 
-**Infrastructure**
+#### Infrastructure
+
 - [ ] Supabase backend setup
 - [ ] Anonymous user tracking (optional)
 - [ ] Remote config for feature flags
@@ -64,52 +72,60 @@
 
 ### Phase 2: Enhancement - Months 4-6
 
-**Advanced Audio**
+#### Advanced Audio
+
 - [ ] Isochronic tones option
 - [ ] Background music mixing (user's own music)
 - [ ] Volume automation/fading
 - [ ] Custom frequency input (decimal precision)
 - [ ] Stereo balance control
 
-**User Experience**
+#### User Experience
+
 - [ ] Save favorite presets
 - [ ] Session history
 - [ ] Quick-start widgets (home screen)
 - [ ] Onboarding tutorial
 
-**Donation System**
+#### Donation System
+
 - [ ] In-app donation flow
 - [ ] GitHub Sponsors integration
 - [ ] Open Collective link
 - [ ] "Supporter" badge recognition
 - [ ] Transparent funding goals display
 
-**Community**
+#### Community
+
 - [ ] Share presets (export/import)
 - [ ] Community preset repository
 - [ ] In-app preset browser
 
 ### Phase 3: Advanced Features - Months 7-9
 
-**Visualization**
+#### Visualization
+
 - [ ] Real-time waveform display
 - [ ] Brainwave band visualization
 - [ ] Session progress indicator
 - [ ] Breathing guide overlay
 
-**Smart Features**
+#### Smart Features
+
 - [ ] Time-based recommendations (sleep time = Delta)
 - [ ] Session scheduling
 - [ ] Smart alarms (wake during light phase)
 - [ ] Usage statistics (local only)
 
-**Integrations**
+#### Integrations
+
 - [ ] Apple HealthKit (Mindful Minutes)
 - [ ] Google Fit integration
 - [ ] Shortcuts/Siri integration (iOS)
 - [ ] Tasker integration (Android)
 
-**Accessibility**
+#### Accessibility
+
 - [ ] VoiceOver/TalkBack support
 - [ ] Dynamic text sizing
 - [ ] High contrast mode
@@ -117,24 +133,28 @@
 
 ### Phase 4: Scale & Refinement - Months 10-12
 
-**Advanced Audio**
+#### Advanced Audio Features
+
 - [ ] Multi-layer frequency sessions
 - [ ] Frequency ramping (smooth transitions)
 - [ ] Export session audio (WAV/MP3)
 - [ ] Advanced EQ controls
 
-**Social Features**
+#### Social Features
+
 - [ ] User accounts (optional)
 - [ ] Cloud sync for presets
 - [ ] Community ratings for presets
 - [ ] Curated preset collections
 
-**Monetization Decision Point**
+#### Monetization Decision Point
+
 - [ ] Evaluate donation sustainability
 - [ ] If needed: implement dormant ad system
 - [ ] Premium features consideration (only if community approves)
 
-**Enterprise/Professional**
+#### Enterprise/Professional
+
 - [ ] Therapist/practitioner dashboard
 - [ ] Client session tracking
 - [ ] White-label option
@@ -154,7 +174,7 @@
 ### Donation Touchpoints
 
 | Location | Timing | Approach |
-|----------|--------|----------|
+| ---------- | -------- | ---------- |
 | Settings | User-initiated | "Support the Project" section with options |
 | Post-Session | After 10+ sessions | Gentle "Enjoying the app?" message |
 | About Page | User-initiated | Full transparency on costs and goals |
@@ -163,6 +183,7 @@
 ### Donation Options
 
 **One-Time:**
+
 - $3 (Coffee)
 - $5 (Lunch)
 - $10 (Dinner)
@@ -170,6 +191,7 @@
 - Custom amount
 
 **Recurring (Monthly):**
+
 - $2 (Supporter)
 - $5 (Advocate)
 - $10 (Champion)
@@ -178,7 +200,7 @@
 ### Recognition System
 
 | Level | Threshold | Recognition |
-|-------|-----------|-------------|
+| ----- | --------- | ----------- |
 | Contributor | Any donation | In-app badge |
 | Supporter | $10+ total | Badge + name in credits |
 | Advocate | $50+ total | Above + early feature access |
@@ -195,18 +217,18 @@ Ads are a **safety valve**, not a revenue strategy. They exist to ensure sustain
 
 ### Technical Architecture
 
-```
+```text
 Remote Config (Supabase)
 ├── ads_enabled_globally: false
 ├── ads_enabled_per_user: false
 ├── ad_user_percentage: 0
 └── ad_network_config: {...}
-```
+```text
 
 ### Ad Toggle States
 
 | State | Description | Trigger |
-|-------|-------------|---------|
+| ----- | ------------- | --------- |
 | **Dormant (Default)** | No ads, no ad code loaded | Initial state |
 | **Enabled (Global)** | All users see ads | Financial necessity |
 | **Enabled (Partial)** | Percentage of users see ads | A/B testing or gradual rollout |
@@ -237,11 +259,11 @@ Remote Config (Supabase)
 ### User Communication
 
 **If Ads Become Necessary:**
-```
+```text
 "To keep Binaural Beats free for everyone, we've enabled 
 non-intrusive ads. These never appear during your sessions. 
 You can disable ads anytime by becoming a supporter."
-```
+```text
 
 ---
 
@@ -259,7 +281,7 @@ You can disable ads anytime by becoming a supporter."
 #### 1. Remote Config Management
 
 | Setting | Type | Description |
-|---------|------|-------------|
+| --------- | ------ | ------------- |
 | `ads_enabled_globally` | Boolean | Master ad toggle |
 | `ads_user_percentage` | Integer | % of users with ads (0-100) |
 | `ad_banner_enabled` | Boolean | Banner ad toggle |
@@ -296,7 +318,7 @@ You can disable ads anytime by becoming a supporter."
 
 ### Dashboard UI Mockup
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  Binaural Beats Admin Dashboard                    [Logout] │
 ├─────────────────────────────────────────────────────────────┤
@@ -317,7 +339,7 @@ You can disable ads anytime by becoming a supporter."
 │  ─────────────────────────────────────────────────────────  │
 │  Last Updated: 2026-03-28 14:32 UTC by admin@example.com    │
 └─────────────────────────────────────────────────────────────┘
-```
+```text
 
 ---
 
@@ -326,7 +348,7 @@ You can disable ads anytime by becoming a supporter."
 ### User Engagement
 
 | Metric | Target (6mo) | Target (12mo) |
-|--------|--------------|---------------|
+| -------- | -------------- | --------------- |
 | Monthly Active Users | 5,000 | 20,000 |
 | Average Session Duration | 15 min | 18 min |
 | Sessions per user/week | 3 | 4 |
@@ -336,7 +358,7 @@ You can disable ads anytime by becoming a supporter."
 ### Financial Sustainability
 
 | Metric | Target (6mo) | Target (12mo) |
-|--------|--------------|---------------|
+| -------- | -------------- | --------------- |
 | Monthly Donations | $200 | $500 |
 | Donation Conversion Rate | 1.5% | 2.5% |
 | Average Donation | $8 | $10 |
@@ -346,7 +368,7 @@ You can disable ads anytime by becoming a supporter."
 ### Community Health
 
 | Metric | Target (6mo) | Target (12mo) |
-|--------|--------------|---------------|
+| -------- | -------------- | --------------- |
 | GitHub Stars | 300 | 1,500 |
 | Contributors | 5 | 15 |
 | Community Presets | 50 | 200 |
@@ -357,12 +379,12 @@ You can disable ads anytime by becoming a supporter."
 ## Risk Assessment & Mitigation
 
 | Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Insufficient donations | Medium | High | Dormant ad system ready |
-| Flutter audio limitations | Low | High | FFI fallback to C++ |
-| Negative reviews | Low | Medium | Responsive support, rapid fixes |
-| Scope creep | Medium | Medium | Strict MVP focus |
-| Platform policy changes | Low | Medium | Stay updated, adaptable |
+| ------ | ------------ | ------ | ------------ |
+|  Insufficient donations | Medium | High | Dormant ad system ready |
+|  Flutter audio limitations | Low | High | FFI fallback to C++ |
+|  Negative reviews | Low | Medium | Responsive support, rapid fixes |
+|  Scope creep | Medium | Medium | Strict MVP focus |
+|  Platform policy changes | Low | Medium | Stay updated, adaptable |
 
 ---
 

@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/models/brainwave_preset.dart';
+import '../../core/tokens/spacing_tokens.dart';
+import '../../core/atoms/atoms.dart';
 import 'favorites_controller.dart';
 import '../community/community_presets_controller.dart';
 import '../../core/models/user_preset.dart';
 import '../../core/audio/audio_controller.dart';
+import '../settings/settings_screen.dart';
+import '../navigation/app_routes.dart';
 
 class LibraryScreen extends ConsumerWidget {
-  const LibraryScreen({super.key});
+  final bool isModal;
+
+  const LibraryScreen({super.key, this.isModal = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,10 +26,10 @@ class LibraryScreen extends ConsumerWidget {
       return _buildDesktopLayout(context, ref);
     }
 
-    return _buildMobileLayout(context, ref);
+    return _buildMobileLayout(context, ref, isModal);
   }
 
-  Widget _buildMobileLayout(BuildContext context, WidgetRef ref) {
+  Widget _buildMobileLayout(BuildContext context, WidgetRef ref, bool isModal) {
     final favoritesAsync = ref.watch(favoritesControllerProvider);
     final accentColor = Color(
       ref.watch(audioControllerProvider).selectedPreset?.accentColorValue ??
@@ -33,75 +39,103 @@ class LibraryScreen extends ConsumerWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF0D0D0F).withValues(alpha: 0.8),
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(40),
-              ),
-              border: Border.all(color: Colors.white10),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 12),
-                Container(
-                  width: 40,
-                  height: 4,
+        backgroundColor: isModal ? Colors.transparent : AppColors.background,
+        body: isModal
+            ? BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white24,
-                    borderRadius: BorderRadius.circular(2),
+                    color: const Color(0xFF0D0D0F).withAlpha(204),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(40),
+                    ),
+                    border: Border.all(color: Colors.white10),
+                  ),
+                  child: _buildMobileContent(
+                    context,
+                    ref,
+                    favoritesAsync,
+                    accentColor,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 12, 12, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const TabBar(
-                        isScrollable: true,
-                        dividerColor: Colors.transparent,
-                        indicatorColor: Colors.deepPurple,
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Colors.white24,
-                        labelStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        tabs: [
-                          Tab(text: 'My Library'),
-                          Tab(text: 'Community'),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close, color: Colors.white54),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
+              )
+            : Container(
+                color: AppColors.background,
+                child: _buildMobileContent(
+                  context,
+                  ref,
+                  favoritesAsync,
+                  accentColor,
                 ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      _buildMyLibrary(
-                        context,
-                        ref,
-                        favoritesAsync,
-                        accentColor,
-                        false,
-                      ),
-                      _buildCommunity(context, ref, accentColor, false),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildMobileContent(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<List<UserPreset>> favoritesAsync,
+    Color accentColor,
+  ) {
+    return Column(
+      children: [
+        const SizedBox(height: 12),
+        Container(
+          width: 40,
+          height: 4,
+          decoration: BoxDecoration(
+            color: Colors.white24,
+            borderRadius: BorderRadius.circular(2),
           ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 12, 12, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TabBar(
+                isScrollable: true,
+                dividerColor: Colors.transparent,
+                indicatorColor: Colors.deepPurple,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white24,
+                labelStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                tabs: [
+                  Tab(text: 'My Library'),
+                  Tab(text: 'Community'),
+                ],
+              ),
+              IconButton(
+                icon: Icon(
+                  isModal ? Icons.close : Icons.settings,
+                  color: Colors.white54,
+                ),
+                onPressed: () => isModal
+                    ? Navigator.pop(context)
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SettingsScreen(),
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: TabBarView(
+            children: [
+              _buildMyLibrary(context, ref, favoritesAsync, accentColor, false),
+              _buildCommunity(context, ref, accentColor, false),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -167,15 +201,15 @@ class LibraryScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
                   // Filter Tabs
-                  const Row(
+                  Row(
                     children: [
-                      _FilterChip(label: 'All', isSelected: true),
-                      SizedBox(width: 8),
-                      _FilterChip(label: 'Favorites', isSelected: false),
-                      SizedBox(width: 8),
-                      _FilterChip(label: 'Recent', isSelected: false),
-                      SizedBox(width: 8),
-                      _FilterChip(label: 'By Band', isSelected: false),
+                      MwChip(label: 'All', isSelected: true, onTap: () {}),
+                      const SizedBox(width: SpacingTokens.sm),
+                      MwChip(label: 'Favorites', onTap: () {}),
+                      const SizedBox(width: SpacingTokens.sm),
+                      MwChip(label: 'Recent', onTap: () {}),
+                      const SizedBox(width: SpacingTokens.sm),
+                      MwChip(label: 'By Band', onTap: () {}),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -203,7 +237,14 @@ class LibraryScreen extends ConsumerWidget {
                                 ref
                                     .read(favoritesControllerProvider.notifier)
                                     .loadPreset(preset);
-                                Navigator.pop(context);
+                                if (isModal) {
+                                  Navigator.pop(context);
+                                } else {
+                                  Navigator.popUntil(
+                                    context,
+                                    (route) => route.isFirst,
+                                  );
+                                }
                               },
                             );
                           },
@@ -306,7 +347,8 @@ class LibraryScreen extends ConsumerWidget {
               Icons.notifications_outlined,
               color: AppColors.onSurfaceVariant,
             ),
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutes.notifications),
           ),
           const SizedBox(width: 16),
           Container(
@@ -366,7 +408,11 @@ class LibraryScreen extends ConsumerWidget {
                   ref
                       .read(favoritesControllerProvider.notifier)
                       .loadPreset(preset);
-                  Navigator.pop(context);
+                  if (isModal) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  }
                 },
               );
             },
@@ -384,7 +430,11 @@ class LibraryScreen extends ConsumerWidget {
                 ref
                     .read(favoritesControllerProvider.notifier)
                     .loadPreset(preset);
-                Navigator.pop(context);
+                if (isModal) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                }
               },
               onDelete: () => ref
                   .read(favoritesControllerProvider.notifier)
@@ -428,7 +478,11 @@ class LibraryScreen extends ConsumerWidget {
                 ref
                     .read(communityPresetsControllerProvider.notifier)
                     .loadCommunityPreset(preset);
-                Navigator.pop(context);
+                if (isModal) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                }
               },
             );
           },
@@ -447,7 +501,7 @@ class LibraryScreen extends ConsumerWidget {
           Icon(
             Icons.library_music_outlined,
             size: 64,
-            color: Colors.white.withValues(alpha: 0.1),
+            color: Colors.white.withAlpha(26),
           ),
           const SizedBox(height: 16),
           const Text(
@@ -485,7 +539,7 @@ class _FavoriteCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.03),
+        color: Colors.white.withAlpha(8),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white10),
       ),
@@ -544,9 +598,9 @@ class _CommunityCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: accentColor.withValues(alpha: 0.05),
+        color: accentColor.withAlpha(13),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: accentColor.withValues(alpha: 0.1)),
+        border: Border.all(color: accentColor.withAlpha(26)),
       ),
       child: ListTile(
         onTap: onTap,
@@ -554,7 +608,7 @@ class _CommunityCard extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: accentColor.withValues(alpha: 0.1),
+            color: accentColor.withAlpha(26),
             shape: BoxShape.circle,
           ),
           child: Icon(Icons.auto_awesome, color: accentColor, size: 20),
@@ -565,10 +619,7 @@ class _CommunityCard extends StatelessWidget {
         ),
         subtitle: Text(
           '${preset.beatFrequency}Hz ${preset.noiseType.name.toUpperCase()}',
-          style: TextStyle(
-            color: accentColor.withValues(alpha: 0.5),
-            fontSize: 11,
-          ),
+          style: TextStyle(color: accentColor.withAlpha(128), fontSize: 11),
         ),
         trailing: const Icon(Icons.chevron_right, color: Colors.white24),
       ),
@@ -599,32 +650,6 @@ class _NavLink extends StatelessWidget {
                 : AppColors.onSurface.withAlpha(153),
             fontFamily: 'Space Grotesk',
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-
-  const _FilterChip({required this.label, required this.isSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColors.primary : AppColors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: isSelected ? AppColors.onPrimary : AppColors.onSurfaceVariant,
         ),
       ),
     );

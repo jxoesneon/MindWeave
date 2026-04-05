@@ -50,6 +50,19 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
 
+      - name: Create .env file from secrets
+        run: |
+          cat > .env << EOF
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          HCAPTCHA_SITE_KEY=${{ secrets.HCAPTCHA_SITE_KEY }}
+          GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          GOOGLE_IOS_CLIENT_ID=${{ secrets.GOOGLE_IOS_CLIENT_ID }}
+          ENABLE_CAPTCHA=${{ secrets.ENABLE_CAPTCHA || 'true' }}
+          ENABLE_GOOGLE_SIGNIN=${{ secrets.ENABLE_GOOGLE_SIGNIN || 'true' }}
+          DEV_MODE=false
+          EOF
+
       - name: Install dependencies
         run: |
           flutter pub get
@@ -79,10 +92,21 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
 
+      - name: Create .env file from secrets
+        run: |
+          cat > .env << EOF
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          HCAPTCHA_SITE_KEY=${{ secrets.HCAPTCHA_SITE_KEY }}
+          GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          GOOGLE_IOS_CLIENT_ID=${{ secrets.GOOGLE_IOS_CLIENT_ID }}
+          ENABLE_CAPTCHA=${{ secrets.ENABLE_CAPTCHA || 'true' }}
+          ENABLE_GOOGLE_SIGNIN=${{ secrets.ENABLE_GOOGLE_SIGNIN || 'true' }}
+          DEV_MODE=false
+          EOF
+
       - name: Get dependencies
         run: flutter pub get
-
-      - name: Build Web with production secrets
         run: |
           flutter build web --release \
             --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \

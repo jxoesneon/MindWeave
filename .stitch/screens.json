@@ -1,0 +1,227 @@
+{
+  "project": "MindWeave",
+  "version": "1.1.0",
+  "export_date": "2026-04-01",
+  "stitch_projects": [
+    {
+      "id": "12425500552674374855",
+      "name": "ZEGION",
+      "screens": 8
+    },
+    {
+      "id": "13260247515791222790",
+      "name": "MindWeave",
+      "screens": 41
+    }
+  ],
+  "screens": [
+    {
+      "id": "main_navigation",
+      "name": "Main Navigation Shell",
+      "file": "lib/features/navigation/main_navigation.dart",
+      "type": "shell",
+      "route": "/",
+      "description": "Bottom tab navigation for mobile, desktop uses PlayerScreen directly",
+      "source": "code"
+    },
+    {
+      "id": "player_screen",
+      "name": "Sanctuary (Player)",
+      "file": "lib/features/home/player_screen.dart",
+      "type": "primary",
+      "route": "/sanctuary",
+      "description": "Main audio player with binaural beats, visualizer, and controls",
+      "widgets": ["lib/features/home/player_screen_widgets.dart"],
+      "source": "code"
+    },
+    {
+      "id": "library_screen", 
+      "name": "Library",
+      "file": "lib/features/favorites/library_screen.dart",
+      "type": "tab",
+      "route": "/library",
+      "description": "User favorites and saved presets with community tab",
+      "source": "code"
+    },
+    {
+      "id": "community_presets_screen",
+      "name": "Community Presets",
+      "file": "lib/features/community/community_presets_screen.dart",
+      "type": "screen",
+      "route": "/community",
+      "description": "Browse and discover public presets from the community",
+      "source": "code"
+    },
+    {
+      "id": "frequencies_screen",
+      "name": "Frequencies",
+      "file": "lib/features/frequencies/frequencies_screen.dart",
+      "type": "tab",
+      "route": "/frequencies",
+      "description": "Educational content on brainwave bands (Delta, Theta, Alpha, Beta, Gamma)",
+      "source": "code"
+    },
+    {
+      "id": "session_history_screen",
+      "name": "Journals",
+      "file": "lib/features/history/session_history_screen.dart",
+      "type": "tab",
+      "route": "/journals",
+      "description": "Session history and journal entries",
+      "source": "code"
+    },
+    {
+      "id": "settings_screen",
+      "name": "Settings",
+      "file": "lib/features/settings/settings_screen.dart",
+      "type": "screen",
+      "route": "/settings",
+      "description": "App settings, donations, about, and preferences",
+      "source": "code"
+    }
+  ],
+  "stitch_only_screens": [
+    {
+      "id": "stitch_player_variants",
+      "name": "Player Screen Variants",
+      "count": 4,
+      "stitch_ids": ["2b43b2547c5646f799c0388d63dbc0cc", "38e69fdf5d6e4bc0a715d04a2067a504", "454cf473ca9342548b256c282aeb8e06", "4ebc774a13e44a00a61bbcd928a94342"],
+      "description": "Multiple visual variants of the Sanctuary/Player screen from Stitch"
+    },
+    {
+      "id": "stitch_library_variants",
+      "name": "Library Screen Variants",
+      "count": 4,
+      "stitch_ids": ["39589579c6b64924ba2c9e5cc783a96b", "5c4e7ddcff6840ecb393e32999a502c7", "638123fb503644b78e2cd8c85b9df4f5", "649d53e3d9d74e1db9ec61c688297f8f"],
+      "description": "Multiple visual variants of the Library/Favorites screen from Stitch"
+    },
+    {
+      "id": "stitch_frequencies_variants",
+      "name": "Frequencies Screen Variants",
+      "count": 3,
+      "stitch_ids": ["3dc9f383484d44669511a46eafa3a74a", "862d63c8828b406484faaa6c8a266c9e", "985e2cdcabbb4b5092d1ba2713485f09"],
+      "description": "Multiple visual variants of the Frequencies/Educational screen from Stitch"
+    },
+    {
+      "id": "stitch_journal_variants",
+      "name": "Journal Screen Variants",
+      "count": 3,
+      "stitch_ids": ["428b2815b57b45b68d09df6a36860098", "9438caf7ea44412895d66f99efe70f2e", "a2ad2dac34e047b9b190bef89da74d55"],
+      "description": "Multiple visual variants of the Journal/History screen from Stitch"
+    },
+    {
+      "id": "stitch_settings_variants",
+      "name": "Settings Screen Variants",
+      "count": 2,
+      "stitch_ids": ["c5e5e201b0d0418fb0f312141fa16e3d", "f30b541ee3da41f48a2d89feb07807bf"],
+      "description": "Multiple visual variants of the Settings screen from Stitch"
+    },
+    {
+      "id": "stitch_community_variants",
+      "name": "Community Presets Variants",
+      "count": 2,
+      "stitch_ids": ["45c8228f3f104484b310baa89a7f3618", "7c501555b1a040299e8e9dc8d98075d7"],
+      "description": "Multiple visual variants of the Community Presets screen from Stitch"
+    },
+    {
+      "id": "stitch_welcome_onboarding",
+      "name": "Welcome/Onboarding Screens",
+      "count": 2,
+      "stitch_ids": ["2255ee4550b94195a3c611a29280f296", "62a772c1432949998be594e440574ad1"],
+      "description": "Welcome and onboarding flow screens from Stitch (NOT in code)",
+      "status": "missing_in_code"
+    },
+    {
+      "id": "stitch_profile_account",
+      "name": "Profile & Account Screens",
+      "count": 3,
+      "stitch_ids": ["52656e9a7cae4e64a1cee80288d7b87f", "8de4afd17d224df088cb63c267810128", "927a73cc13df4e3bae8b74ee9d8545b7"],
+      "description": "User profile, account management, and stats screens from Stitch (NOT in code)",
+      "status": "missing_in_code"
+    },
+    {
+      "id": "stitch_health_stats",
+      "name": "Health & Stats Screens",
+      "count": 2,
+      "stitch_ids": ["5783bf3cb1a34130a77e174ff4ba9506", "bd7b7af35eb54e1d9c7946359a58e9b1"],
+      "description": "Health stats and streak visualization screens from Stitch (partial in code)",
+      "status": "partial_in_code"
+    },
+    {
+      "id": "stitch_timer_session",
+      "name": "Timer & Session Screens",
+      "count": 2,
+      "stitch_ids": ["589ffe27f2774fb0844f784803ddb08d", "badc7ad09d6f4e819a15d041313ebfa9"],
+      "description": "Timer controls and active session screens from Stitch",
+      "status": "integrated_in_player"
+    },
+    {
+      "id": "stitch_misc_screens",
+      "name": "Additional Screens",
+      "count": 14,
+      "stitch_ids": ["c1072632d4f046ed8f37cacbc79a7e56", "c433e338c86a4748ba561ad319a803dc", "cb547afc75a24a1d8e44cc557045dabc", "cee726b269ec4c05b00cf7108a4d9a40", "d00fbb2b71694f5dbaebf46b34faf562", "d11f4b9abfd44e0bb338d9f72554f930", "d368b85cc3d84bdf9788087b23a2c156", "d4e5737663c8499abbba8a56177733bc", "dcad648d9c544022b85f59e62027b8df", "eb9f95cb3a634eba83266bb53877aad1", "ec13fe4097a54349b7694762b6f6d9ff", "f37f2a076e5d463391b99e9eae8c29ee", "f9b4848712d8437580f510aea5eacf94"],
+      "description": "Additional screens including modals, overlays, and utility screens from Stitch (need analysis)"
+    }
+  ],
+  "navigation": {
+    "type": "bottom_tabs",
+    "shell": "main_navigation",
+    "items": [
+      {"label": "Library", "icon": "library_music", "screen": "library_screen", "index": 0},
+      {"label": "Sanctuary", "icon": "spa", "screen": "player_screen", "index": 1, "default": true},
+      {"label": "Frequencies", "icon": "waves", "screen": "frequencies_screen", "index": 2},
+      {"label": "Journals", "icon": "book", "screen": "session_history_screen", "index": 3}
+    ]
+  },
+  "ux_flow": {
+    "entry_point": "main_navigation",
+    "default_tab": "player_screen",
+    "flows": [
+      {
+        "name": "First Launch",
+        "path": ["stitch_welcome_onboarding", "main_navigation"],
+        "actions": ["onboard", "accept_terms", "grant_permissions"],
+        "status": "partial"
+      },
+      {
+        "name": "Play Session",
+        "path": ["player_screen"],
+        "actions": ["play", "pause", "save_preset", "set_timer", "adjust_mixer"],
+        "status": "complete"
+      },
+      {
+        "name": "Browse Library",
+        "path": ["library_screen", "community_presets_screen"],
+        "actions": ["view_favorites", "view_community", "load_preset", "save_to_favorites"],
+        "status": "complete"
+      },
+      {
+        "name": "Learn Frequencies",
+        "path": ["frequencies_screen"],
+        "actions": ["explore_bands", "view_details", "select_frequency"],
+        "status": "complete"
+      },
+      {
+        "name": "View History",
+        "path": ["session_history_screen"],
+        "actions": ["view_sessions", "add_notes", "view_stats"],
+        "status": "complete"
+      },
+      {
+        "name": "Manage Profile",
+        "path": ["stitch_profile_account", "settings_screen"],
+        "actions": ["edit_profile", "view_stats", "manage_account"],
+        "status": "missing"
+      }
+    ]
+  },
+  "theme": {
+    "primaryColor": "#8B5CF6",
+    "darkMode": true,
+    "glassmorphism": true
+  },
+  "linked_at": "2026-04-01T21:30:00Z",
+  "total_screens_in_code": 7,
+  "total_screens_in_stitch": 49,
+  "missing_in_code": ["stitch_welcome_onboarding", "stitch_profile_account"]
+}

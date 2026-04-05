@@ -30,6 +30,13 @@ class FavoritesRepository {
         _storageService = storageService;
 
   Future<List<UserPreset>> getFavorites() async {
+    // Check if Supabase is properly configured
+    final supabaseUrl = _supabase.rest.url;
+    if (supabaseUrl.contains('your_supabase') || supabaseUrl.isEmpty) {
+      debugPrint('⚠️ Supabase not configured, returning local favorites only');
+      return _getLocalFavorites();
+    }
+
     final userId = _supabase.auth.currentUser?.id;
 
     if (userId == null) return _getLocalFavorites();
@@ -55,6 +62,14 @@ class FavoritesRepository {
   }
 
   Future<UserPreset?> addFavorite(UserPreset preset) async {
+    // Check if Supabase is properly configured
+    final supabaseUrl = _supabase.rest.url;
+    if (supabaseUrl.contains('your_supabase') || supabaseUrl.isEmpty) {
+      debugPrint('⚠️ Supabase not configured, saving favorite locally only');
+      await _addToLocal(preset);
+      return preset;
+    }
+
     final userId = _supabase.auth.currentUser?.id;
     if (userId == null) return null;
 
@@ -77,6 +92,14 @@ class FavoritesRepository {
   }
 
   Future<void> deleteFavorite(String id) async {
+    // Check if Supabase is properly configured
+    final supabaseUrl = _supabase.rest.url;
+    if (supabaseUrl.contains('your_supabase') || supabaseUrl.isEmpty) {
+      debugPrint('⚠️ Supabase not configured, deleting favorite locally only');
+      await _removeFromLocal(id);
+      return;
+    }
+
     try {
       await _supabase.from('user_favorites').delete().eq('id', id);
       await _removeFromLocal(id);

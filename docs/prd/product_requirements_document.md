@@ -50,7 +50,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 ### Target Platforms
 
 | Platform | Minimum Version | Target Version | Layout Priority |
-|----------|-----------------|----------------|-----------------|
+| -------- | --------------- | -------------- | --------------- |
 | iOS | 13.0 | 17.0+ | Mobile-first with iPad desktop |
 | Android | API 21 (5.0) | API 34+ | Mobile-first with tablet desktop |
 | macOS (future) | 11.0 | 14.0+ | Desktop-heavy |
@@ -341,7 +341,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 
 #### Main Player Screen - Mobile Layout
 
-```
+```text
 ┌─────────────────────────────────────┐
 │  [Settings]    Binaural Beats   [?] │
 ├─────────────────────────────────────┤
@@ -367,11 +367,11 @@ The application follows a **dual-experience architecture** that serves both mobi
 │                                     │
 │  [Timer] [Music] [Save] [Share]     │
 └─────────────────────────────────────┘
-```
+```text
 
 #### Main Player Screen - Desktop Layout (Sanctuary)
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────────────────────┐
 │  Library    Sanctuary    Frequencies    Journals              [Stats]  [Settings] │
 ├──────────────────────────────────────────────────────────────────────────────────┤
@@ -397,7 +397,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 │                          │  [Timer] [Music] [Save] [Share]│                      │
 │                          └───────────────────────────────┘                      │
 └──────────────────────────────────────────────────────────────────────────────────┘
-```
+```text
 
 **Desktop Sanctuary Layout Features:**
 - **Left Sidebar:** Quick preset selection, favorites list, add custom preset CTA
@@ -407,7 +407,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 
 #### Presets Screen - Mobile Layout
 
-```
+```text
 ┌─────────────────────────────────────┐
 │  ← Back        My Presets      [+]  │
 ├─────────────────────────────────────┤
@@ -424,11 +424,11 @@ The application follows a **dual-experience architecture** that serves both mobi
 │  │ Used 24 times               │    │
 │  └─────────────────────────────┘    │
 └─────────────────────────────────────┘
-```
+```text
 
 #### Presets Screen - Desktop Layout (Library)
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────────────────────┐
 │  Library (active)  Sanctuary  Frequencies  Journals        [Stats]  [Settings] │
 ├──────────────────────────────────────────────────────────────────────────────────┤
@@ -456,7 +456,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 │  └─────────────────────────────────────────────────────────────┘                  │
 │                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────┘
-```
+```text
 
 **Desktop Library Features:**
 - **Filter Chips:** Quick filtering by category (All, Sleep, Focus, Meditation, Custom)
@@ -468,7 +468,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 
 #### Settings / Donation Screen - Mobile Layout
 
-```
+```text
 ┌─────────────────────────────────────┐
 │  ← Back        Support Us           │
 ├─────────────────────────────────────┤
@@ -499,7 +499,7 @@ The application follows a **dual-experience architecture** that serves both mobi
 │  [View Our Open Collective]         │
 │  [See How Funds Are Used]           │
 └─────────────────────────────────────┘
-```
+```text
 
 ### 6.3 Color Palette
 

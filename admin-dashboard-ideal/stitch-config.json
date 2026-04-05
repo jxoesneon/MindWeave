@@ -1,0 +1,356 @@
+{
+  "project": {
+    "name": "mindweave-admin-dashboard",
+    "description": "MindWeave Admin Dashboard - Analytics, User Management, and System Monitoring",
+    "template": "next-ts-tailwind",
+    "darkMode": true
+  },
+  "designSystem": {
+    "colors": {
+      "primary": "#2fd9f4",
+      "primaryContainer": "#000608",
+      "primaryFixed": "#a2eeff",
+      "primaryFixedDim": "#2fd9f4",
+      "onPrimary": "#00363e",
+      "onPrimaryContainer": "#008395",
+      "onPrimaryFixed": "#001f25",
+      "onPrimaryFixedVariant": "#004e5a",
+      "surfaceTint": "#2fd9f4",
+      "inversePrimary": "#006877",
+      "secondary": "#d0bcff",
+      "secondaryContainer": "#571bc1",
+      "secondaryFixed": "#e9ddff",
+      "secondaryFixedDim": "#d0bcff",
+      "onSecondary": "#3c0091",
+      "onSecondaryContainer": "#c4abff",
+      "onSecondaryFixed": "#23005c",
+      "onSecondaryFixedVariant": "#5516be",
+      "tertiary": "#e9c349",
+      "tertiaryContainer": "#080500",
+      "tertiaryFixed": "#ffe088",
+      "tertiaryFixedDim": "#e9c349",
+      "onTertiary": "#3c2f00",
+      "onTertiaryContainer": "#917400",
+      "onTertiaryFixed": "#241a00",
+      "onTertiaryFixedVariant": "#574500",
+      "background": "#131315",
+      "surface": "#131315",
+      "surfaceDim": "#131315",
+      "surfaceBright": "#3a393a",
+      "surfaceContainerLowest": "#0e0e0f",
+      "surfaceContainerLow": "#1c1b1d",
+      "surfaceContainer": "#201f21",
+      "surfaceContainerHigh": "#2a2a2b",
+      "surfaceContainerHighest": "#353436",
+      "surfaceVariant": "#353436",
+      "onSurface": "#e5e1e3",
+      "onSurfaceVariant": "#c8c5ca",
+      "onBackground": "#e5e1e3",
+      "inverseSurface": "#e5e1e3",
+      "inverseOnSurface": "#313032",
+      "outline": "#919095",
+      "outlineVariant": "#47464a",
+      "error": "#ffb4ab",
+      "errorContainer": "#93000a",
+      "onError": "#690005",
+      "onErrorContainer": "#ffdad6",
+      "delta": "#4A90D9",
+      "theta": "#9B59B6",
+      "alpha": "#7B68EE",
+      "beta": "#E67E22",
+      "gamma": "#E74C3C"
+    },
+    "typography": {
+      "headline": "Space Grotesk",
+      "body": "Inter",
+      "label": "Space Grotesk"
+    },
+    "borderRadius": {
+      "DEFAULT": "0.125rem",
+      "lg": "0.25rem",
+      "xl": "0.5rem",
+      "full": "0.75rem"
+    },
+    "effects": {
+      "glassPanel": {
+        "background": "rgba(32, 31, 33, 0.4)",
+        "backdropFilter": "blur(20px)"
+      },
+      "cyanGlow": {
+        "boxShadow": "0 0 20px rgba(47, 217, 244, 0.15)"
+      },
+      "violetGlow": {
+        "boxShadow": "0 0 20px rgba(208, 188, 255, 0.15)"
+      }
+    }
+  },
+  "pages": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "route": "/",
+      "type": "dashboard",
+      "widgets": [
+        {
+          "type": "stat-card",
+          "title": "Total Users",
+          "icon": "Users",
+          "dataSource": "users.count"
+        },
+        {
+          "type": "stat-card",
+          "title": "Active Today",
+          "icon": "Activity",
+          "dataSource": "analytics.dailyActive"
+        },
+        {
+          "type": "stat-card",
+          "title": "Active This Month",
+          "icon": "TrendingUp",
+          "dataSource": "analytics.monthlyActive"
+        },
+        {
+          "type": "stat-card",
+          "title": "Total Sessions",
+          "icon": "Clock",
+          "dataSource": "sessions.count"
+        },
+        {
+          "type": "stat-card",
+          "title": "Avg Session Duration",
+          "icon": "Clock",
+          "dataSource": "analytics.avgDuration"
+        },
+        {
+          "type": "stat-card",
+          "title": "Active Now",
+          "icon": "Radio",
+          "dataSource": "realtime.activeUsers"
+        },
+        {
+          "type": "stat-card",
+          "title": "Donations",
+          "icon": "Heart",
+          "dataSource": "donations.total"
+        },
+        {
+          "type": "frequency-bands",
+          "title": "Frequency Band Usage",
+          "bands": ["Delta", "Theta", "Alpha", "Beta", "Gamma"]
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "name": "Users",
+      "route": "/users",
+      "type": "list",
+      "dataSource": "users",
+      "columns": [
+        { "field": "id", "label": "User ID", "type": "id" },
+        { "field": "is_anonymous", "label": "Anonymous", "type": "boolean" },
+        { "field": "device_type", "label": "Device", "type": "text" },
+        { "field": "app_version", "label": "App Version", "type": "text" },
+        { "field": "created_at", "label": "Created", "type": "date" },
+        { "field": "last_active", "label": "Last Active", "type": "date" }
+      ],
+      "actions": ["view", "export", "delete"],
+      "searchable": true,
+      "pagination": true
+    },
+    {
+      "id": "user-details",
+      "name": "User Details",
+      "route": "/users/:userId",
+      "type": "detail",
+      "dataSource": "users",
+      "sections": [
+        {
+          "type": "info-card",
+          "fields": ["id", "device_type", "app_version", "created_at", "last_active"]
+        },
+        {
+          "type": "table",
+          "title": "Sessions",
+          "dataSource": "sessions",
+          "filter": { "user_id": "{userId}" }
+        }
+      ]
+    },
+    {
+      "id": "analytics",
+      "name": "Analytics",
+      "route": "/analytics",
+      "type": "analytics",
+      "charts": [
+        {
+          "type": "line",
+          "title": "Daily Active Users (30 days)",
+          "dataSource": "analytics.dailyActive",
+          "color": "primary"
+        },
+        {
+          "type": "bar",
+          "title": "Monthly Active Users (6 months)",
+          "dataSource": "analytics.monthlyActive",
+          "color": "primary"
+        },
+        {
+          "type": "bar",
+          "title": "Session Duration Distribution",
+          "dataSource": "analytics.durationDistribution",
+          "color": "secondary"
+        },
+        {
+          "type": "bar",
+          "title": "Frequency Band Distribution",
+          "dataSource": "analytics.bandUsage",
+          "colors": ["delta", "theta", "alpha", "beta", "gamma"]
+        },
+        {
+          "type": "pie",
+          "title": "Band Usage Percentage",
+          "dataSource": "analytics.bandUsage"
+        },
+        {
+          "type": "bar",
+          "title": "Donation Metrics (6 months)",
+          "dataSource": "donations.monthly",
+          "dualAxis": true
+        }
+      ]
+    },
+    {
+      "id": "presets",
+      "name": "Presets",
+      "route": "/presets",
+      "type": "list",
+      "dataSource": "presets",
+      "columns": [
+        { "field": "name", "label": "Name", "type": "text" },
+        { "field": "band", "label": "Band", "type": "badge" },
+        { "field": "beat_frequency", "label": "Beat Freq", "type": "number" },
+        { "field": "default_carrier", "label": "Carrier", "type": "number" },
+        { "field": "usage_count", "label": "Usage", "type": "number" },
+        { "field": "is_official", "label": "Official", "type": "toggle" },
+        { "field": "is_featured", "label": "Featured", "type": "toggle" }
+      ],
+      "actions": ["edit"]
+    },
+    {
+      "id": "remote-config",
+      "name": "Remote Config",
+      "route": "/config",
+      "type": "list",
+      "dataSource": "remote_config",
+      "columns": [
+        { "field": "key", "label": "Key", "type": "text" },
+        { "field": "value", "label": "Value", "type": "json" },
+        { "field": "type", "label": "Type", "type": "select" },
+        { "field": "description", "label": "Description", "type": "text" },
+        { "field": "updated_at", "label": "Updated", "type": "date" }
+      ],
+      "actions": ["add", "edit", "delete"]
+    },
+    {
+      "id": "audit-log",
+      "name": "Audit Log",
+      "route": "/audit",
+      "type": "list",
+      "dataSource": "audit_logs",
+      "columns": [
+        { "field": "performed_at", "label": "Timestamp", "type": "datetime" },
+        { "field": "performed_by", "label": "Admin", "type": "text" },
+        { "field": "action", "label": "Action", "type": "badge" },
+        { "field": "entity_type", "label": "Entity", "type": "text" },
+        { "field": "changes", "label": "Changes", "type": "diff" }
+      ],
+      "filterable": true
+    },
+    {
+      "id": "system-health",
+      "name": "System Health",
+      "route": "/health",
+      "type": "status",
+      "checks": [
+        { "name": "API", "type": "api" },
+        { "name": "Database", "type": "database" },
+        { "name": "Realtime", "type": "realtime" }
+      ],
+      "charts": [
+        {
+          "type": "line",
+          "title": "Error Rate (24h)",
+          "dataSource": "health.errors"
+        }
+      ]
+    },
+    {
+      "id": "login-history",
+      "name": "Login History",
+      "route": "/login-history",
+      "type": "list",
+      "dataSource": "login_history",
+      "columns": [
+        { "field": "email", "label": "Admin", "type": "text" },
+        { "field": "timestamp", "label": "Time", "type": "datetime" },
+        { "field": "ip", "label": "IP", "type": "text" },
+        { "field": "user_agent", "label": "User Agent", "type": "text" },
+        { "field": "status", "label": "Status", "type": "badge" }
+      ]
+    },
+    {
+      "id": "ad-performance",
+      "name": "Ad Performance",
+      "route": "/ads",
+      "type": "analytics",
+      "metrics": [
+        { "title": "Impressions", "dataSource": "ads.impressions" },
+        { "title": "Clicks", "dataSource": "ads.clicks" },
+        { "title": "CTR", "dataSource": "ads.ctr" },
+        { "title": "Revenue", "dataSource": "ads.revenue" }
+      ],
+      "charts": [
+        {
+          "type": "line",
+          "title": "Impressions Over Time",
+          "dataSource": "ads.impressionsTime"
+        },
+        {
+          "type": "bar",
+          "title": "CTR by Placement",
+          "dataSource": "ads.ctrByPlacement"
+        }
+      ]
+    }
+  ],
+  "navigation": {
+    "sidebar": {
+      "width": "256px",
+      "items": [
+        { "label": "Dashboard", "icon": "LayoutDashboard", "route": "/" },
+        { "label": "Analytics", "icon": "BarChart3", "route": "/analytics" },
+        { "label": "Users", "icon": "Users", "route": "/users" },
+        { "label": "Presets", "icon": "Music", "route": "/presets" },
+        { "label": "Remote Config", "icon": "Settings", "route": "/config" },
+        { "label": "Audit Log", "icon": "FileText", "route": "/audit" },
+        { "label": "System Health", "icon": "Activity", "route": "/health" },
+        { "label": "Login History", "icon": "Shield", "route": "/login-history" },
+        { "label": "Ad Performance", "icon": "DollarSign", "route": "/ads" }
+      ]
+    }
+  },
+  "dependencies": [
+    "@supabase/supabase-js",
+    "recharts",
+    "lucide-react",
+    "date-fns",
+    "sonner",
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "fonts": [
+    "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+  ]
+}

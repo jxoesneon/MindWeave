@@ -45,6 +45,17 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Audio background mode for binaural beats playback -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+
+	<!-- Microphone permission (for future audio recording features) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>MindWeave may use the microphone for audio recording features in the future.</string>
+
 	<!-- URL Scheme for deep link handling -->
 	<key>CFBundleURLTypes</key>
 	<array>
@@ -54,6 +65,15 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>mindweave</string>
+			</array>
+		</dict>
+		<!-- Google Sign-In URL Scheme - iOS OAuth client ID from Google Cloud Console -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.900217975842-ef0cr4mmaf4omtrr1jo6f49mu12re1tt</string>
 			</array>
 		</dict>
 	</array>

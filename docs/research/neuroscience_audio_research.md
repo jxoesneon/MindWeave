@@ -13,7 +13,7 @@ Brainwaves are oscillating electrical voltages in the brain measured in cycles p
 ### The Five Primary Brainwave Bands
 
 | Band | Frequency Range | Primary Function | Mental State |
-|------|-----------------|------------------|--------------|
+| ---- | --------------- | ---------------- | ------------ |
 | **Delta (δ)** | 0.5 - 4 Hz | Deep sleep, healing, regeneration | Unconscious, restorative |
 | **Theta (θ)** | 4 - 8 Hz | Creativity, meditation, memory | Deeply relaxed, inwardly focused |
 | **Alpha (α)** | 8 - 12 Hz | Relaxation, stress reduction, calm focus | Relaxed wakefulness |
@@ -149,11 +149,11 @@ Binaural beats are an **auditory brainstem response** originating in the **super
 
 ### The Physics of Binaural Beats
 
-```
+```text
 Left Ear:  400 Hz pure tone
 Right Ear: 410 Hz pure tone
 Result:    Perceived 10 Hz binaural beat (Alpha frequency)
-```
+```text
 
 **Key Requirements (Oster's Curve):**
 - Carrier frequencies must be approximately below 1000 Hz

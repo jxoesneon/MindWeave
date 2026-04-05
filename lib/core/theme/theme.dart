@@ -25,7 +25,7 @@ library;
 ///   theme: AppTheme.darkTheme,
 ///   // ...
 /// )
-/// ```
+/// ```text
 
 // Barrel file exports
 export 'app_colors.dart';

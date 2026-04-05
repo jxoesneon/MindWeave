@@ -7,30 +7,29 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:900217975842:android:0000000000000000",
+        "mobilesdk_app_id": "1:900217975842:android:b5d474878df8c71087067b",
         "android_client_info": {
-          "package_name": "com.mindweave.app"
+          "package_name": "org.mindweave.mindweave"
         }
       },
       "oauth_client": [
         {
-          "client_id": "900217975842-00000000000000000000000000000000.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "900217975842-9g9r6ig7lioo0g6jopq0e8tg66234uj7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.mindweave.mindweave",
+            "certificate_hash": "ed9eb6e50b2d30601b443b61784d67aee6d91f3d"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "PLACEHOLDER_API_KEY"
+          "current_key": "AIzaSyAM85Z8cW0t9EWyIQ9IFsTXyd3YeIeuPVM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "900217975842-00000000000000000000000000000000.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

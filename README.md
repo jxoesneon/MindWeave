@@ -20,7 +20,7 @@ Democratize access to scientifically-backed brainwave entrainment technology thr
 
 ## 📁 Documentation Structure
 
-```
+```text
 binaural-beats-app-docs/
 ├── README.md                          # This file
 ├── docs/
@@ -49,7 +49,7 @@ binaural-beats-app-docs/
 │   └── (placeholder for images/assets)
 └── src/
     └── (placeholder for source code references)
-```
+```text
 
 ---
 
