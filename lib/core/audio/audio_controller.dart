@@ -17,9 +17,11 @@ part 'audio_controller.g.dart';
 @riverpod
 class AudioController extends _$AudioController {
   late final AudioService _audioService;
+  late final SessionHistoryService _sessionHistoryService;
+  late final AudioNotificationService _notificationService;
+  late final AnalyticsService _analyticsService;
+
   final _calculator = BinauralFrequencyCalculator();
-  final _sessionHistoryService = SessionHistoryService();
-  final _notificationService = AudioNotificationService();
   Timer? _timer;
   double _initialVolume = 0.5;
   String? _currentSessionId;
@@ -28,6 +30,10 @@ class AudioController extends _$AudioController {
   @override
   AudioState build() {
     _audioService = ref.read(audioServiceProvider);
+    _sessionHistoryService = ref.read(sessionHistoryServiceProvider);
+    _notificationService = ref.read(audioNotificationServiceProvider);
+    _analyticsService = ref.read(analyticsServiceProvider);
+
     _initialVolume = 0.5;
 
     // Initialize services with error handling - don't crash if they fail
@@ -127,7 +133,7 @@ class AudioController extends _$AudioController {
     }
 
     // Track session start analytics
-    AnalyticsService().trackSessionStart(
+    _analyticsService.trackSessionStart(
       presetId: state.selectedPreset?.id ?? 'custom',
       band: state.selectedPreset?.band.name ?? 'unknown',
       beatFrequency: state.beatFrequency,
@@ -213,7 +219,7 @@ class AudioController extends _$AudioController {
       }
 
       // Track session stop analytics
-      AnalyticsService().trackSessionStop(
+      _analyticsService.trackSessionStop(
         presetId: state.selectedPreset?.id ?? 'custom',
         durationSeconds: duration.inSeconds,
         completed: (state.remainingTime?.inSeconds ?? 1) <= 0,
@@ -293,5 +299,37 @@ class AudioController extends _$AudioController {
     if (state.isPlaying) {
       _audioService.setVolume(volume);
     }
+  }
+
+  /// Navigate to the next preset in the list
+  void nextPreset() {
+    final presets = BrainwavePreset.allPresets;
+    if (presets.isEmpty) return;
+
+    final currentIndex = presets.indexWhere(
+      (p) => p.id == state.selectedPreset?.id,
+    );
+    final nextIndex = currentIndex == -1
+        ? 0
+        : (currentIndex + 1) % presets.length;
+
+    final next = presets[nextIndex];
+    selectPreset(next);
+  }
+
+  /// Navigate to the previous preset in the list
+  void previousPreset() {
+    final presets = BrainwavePreset.allPresets;
+    if (presets.isEmpty) return;
+
+    final currentIndex = presets.indexWhere(
+      (p) => p.id == state.selectedPreset?.id,
+    );
+    final prevIndex = currentIndex == -1
+        ? presets.length - 1
+        : (currentIndex - 1 + presets.length) % presets.length;
+
+    final prev = presets[prevIndex];
+    selectPreset(prev);
   }
 }
